@@ -1,0 +1,48 @@
+Simbolo inicial P
+
+P -> TR id() { cuerpo }
+
+cuerpo -> sentencias
+
+sentencias -> sentencia sentencias | λ
+
+sentencia -> decl | asign | ret 
+
+TR -> void | bool| int
+
+decl -> cte|var 
+
+var -> tipo id ;
+    | tipo asign
+
+cte -> const asign
+
+asign -> id = value ;
+
+ret -> return value ; 
+
+value -> expr | exprBool 
+
+expr -> num
+     | ID
+     | expr * expr
+     | expr / expr
+     | expr - expr
+     | expr + expr
+     
+valBool -> true | false | valBool opLog valBool | (valBool) | ID      <-- esta bien?
+
+ID -> letra(letra|numero)*
+
+opLog -> && | || 
+
+numero -> 0|1|2|3|...9
+
+letra -> a|..|z|A|...|Z 
+
+tipo -> bool | int 
+
+
+        
+
+
