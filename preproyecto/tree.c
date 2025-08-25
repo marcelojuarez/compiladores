@@ -3,49 +3,44 @@
 #include "tree.h"
 
 node* createIntNode(int value) {
-    node *root = malloc(sizeof(node));
-    root->type = NODE_NUM;
+    node *root = newNode(NODE_NUM);
     root->info.NUM.type = TYPE_INT; 
     root->info.NUM.value = value;
-
-    root->left = NULL;  // asigno a hi
-    root->right = NULL; // asigno a hd
 
     return root;
 }
 
 node* createBoolNode(int value) {
-    node *root = malloc(sizeof(node));
-    root->type = NODE_BOOL;
+    node *root = newNode(NODE_BOOL);
     root->info.BOOL.type = TYPE_BOOL; 
     root->info.BOOL.value = value;
-
-    root->left = NULL;  // asigno a hi
-    root->right = NULL; // asigno a hd
 
     return root;
 }
 
 node* createIdNode(char* name) {
-    node *root = malloc(sizeof(node));
-    root->type = NODE_ID;
+    node *root = newNode(NODE_ID);
     root->info.ID.name = name;
-    root->left = NULL;  // asigno a hi
-    root->right = NULL; // asigno a hd
 
     return root;
 }
 
 node* createOpNode(char* name) {
-    node *root = malloc(sizeof(node));
-    root->type = NODE_OP;
+    node *root = newNode(NODE_OP);
     root->info.OP.name = name;
-
-    root->left = NULL; // asigno a hi
-    root->right = NULL; // asigno a hd
 
     return root;
 }
+
+node* newNode(NodeType type) {
+    node *root = malloc(sizeof(node));
+    root->type = type;
+    root->left = NULL; // asigno a hi
+    root->right = NULL; // asigno a hd   
+
+    return root;
+}
+    
 
 node* createNewTree(node* root, node* left, node* right){
     node *newRoot = root;

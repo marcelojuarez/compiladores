@@ -46,12 +46,7 @@ prog:
 return_type: TOKEN_VOID {
                 $$ = createOpNode("void");
             }
-            | TOKEN_BOOL {
-                $$ = createOpNode("bool");
-            }
-            | TOKEN_INT {
-                $$ = createOpNode("int");
-            }
+            | type
             ; 
 
 body: sentencias { 

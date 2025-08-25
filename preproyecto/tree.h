@@ -59,6 +59,7 @@ node* createIntNode(int value);
 node* createBoolNode(int value);
 node* createIdNode(char* name);
 node* createOpNode(char* name);
+node* newNode(NodeType type);
 node* createNewTree(node* root, node* left, node* right);
 void printNode(node* root);
 void printInOrder(node *root);
