@@ -2,75 +2,121 @@
 #include <stdlib.h>
 #include "tree.h"
 
-node* createIntNode(int value) {
+node *createIntNode(int value)
+{
     node *root = newNode(NODE_NUM);
-    root->info.NUM.type = TYPE_INT; 
+    root->info.NUM.type = TYPE_INT;
     root->info.NUM.value = value;
 
     return root;
 }
 
-node* createBoolNode(int value) {
+node *createBoolNode(int value)
+{
     node *root = newNode(NODE_BOOL);
-    root->info.BOOL.type = TYPE_BOOL; 
+    root->info.BOOL.type = TYPE_BOOL;
     root->info.BOOL.value = value;
 
     return root;
 }
 
-node* createIdNode(char* name) {
+node *createIdNode(char *name)
+{
     node *root = newNode(NODE_ID);
     root->info.ID.name = name;
 
     return root;
 }
 
-node* createOpNode(char* name) {
+node *createOpNode(op name)
+{
     node *root = newNode(NODE_OP);
     root->info.OP.name = name;
 
     return root;
 }
 
-node* newNode(NodeType type) {
-    node *root = malloc(sizeof(node));
-    root->type = type;
-    root->left = NULL; // asigno a hi
-    root->right = NULL; // asigno a hd   
+node *createNode(char *name)
+{
+    node *root = newNode(NODE);
+    root->info.NODE = name;
 
     return root;
 }
-    
 
-node* createNewTree(node* root, node* left, node* right){
+node *newNode(NodeType type)
+{
+    node *root = malloc(sizeof(node));
+    root->type = type;
+    root->left = NULL;  // asigno a hi
+    root->right = NULL; // asigno a hd
+
+    return root;
+}
+
+node *createNewTree(node *root, node *left, node *right)
+{
     node *newRoot = root;
     newRoot->left = left;
     newRoot->right = right;
     return newRoot;
 }
 
-void printNode(node* root) {
+void printNode(node *root) {
+    if (!root)
+        return;
     switch (root->type) {
         case NODE_NUM:
-            printf("%d \n", root->info.NUM.value);
+            printf("%d\n", root->info.NUM.value);
             break;
         case NODE_ID:
-            printf("%s \n", root->info.ID.name);
+            printf("%s\n", root->info.ID.name ? root->info.ID.name : "NULL");
             break;
         case NODE_BOOL:
-            printf("%s \n", root->info.BOOL.value ? "true" : "false");
+            printf("%s\n", root->info.BOOL.value ? "true" : "false");
             break;
         case NODE_OP:
-            printf("%s \n", root->info.OP.name);
+            switch (root->info.OP.name) {
+            case suma:
+                printf("+\n");
+                break;
+            case resta:
+                printf("-\n");
+                break;
+            case mult:
+                printf("*\n");
+                break;
+            case divide:
+                printf("/\n");
+                break;
+            case asign:
+                printf("=\n");
+                break;
+            case or:
+                printf("||\n");
+                break;
+            case and:
+                printf("&&\n");
+                break;
+            default:
+                printf("OP?\n");
+            }
             break;
- 
-    }
+        case NODE:
+            printf("%s\n", root->info.NODE ? root->info.NODE : "NULL");
+            break;
+        default:
+            printf("UNKNOWN NODE\n");
+            break;
+        }
 }
 
- void printInOrder(node *root) {
-     if (root == NULL) {
+void printInOrder(node *root)
+{
+    if (root == NULL)
+    {
         return;
-     }
+    }
 
     printInOrder(root->left);
 
@@ -79,11 +125,13 @@ void printNode(node* root) {
     printInOrder(root->right);
 }
 
- void printPreOrder(node *root) {
-     if (root == NULL) {
+void printPreOrder(node *root)
+{
+    if (root == NULL)
+    {
         return;
-     }
-    
+    }
+
     printNode(root);
 
     printPreOrder(root->left);
@@ -91,11 +139,14 @@ void printNode(node* root) {
     printInOrder(root->right);
 }
 
-void printTree(node* root, int level) {
-    if (root == NULL) return;
+void printTree(node *root, int level)
+{
+    if (root == NULL)
+        return;
 
-    for (int i = 0; i < level; i++) {
-        printf("   ");  
+    for (int i = 0; i < level; i++)
+    {
+        printf("   ");
     }
 
     printNode(root);
@@ -106,10 +157,10 @@ void printTree(node* root, int level) {
 
 /**
 int main() {
-    
+
     node* num = createIntNode(3);
     node* num1 = createIntNode(5);
-    
+
     node* op = createOpNode("+");
 
     node* tree = createNewTree(op, num, num1);
@@ -121,4 +172,3 @@ int main() {
 
 }
 */
-

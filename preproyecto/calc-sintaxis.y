@@ -38,19 +38,19 @@ node* root;
 prog:
     return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R 
     {
-        node* rt = createOpNode("program");
+        node* rt = createNode("program");
         root = createNewTree(rt, $1, $6);
     }
     ;
 
 return_type: TOKEN_VOID {
-                $$ = createOpNode("void");
+                $$ = createNode("void");
             }
             | type
             ; 
 
 body: sentencias { 
-        node* bd = createOpNode("body");
+        node* bd = createNode("body");
         $$ = createNewTree(bd, $1, NULL);
     }
     ;
@@ -58,31 +58,31 @@ body: sentencias {
 sentencias:
           /*vacio*/ { $$ = NULL; }
           | sentencia sentencias {
-            node* sent = createOpNode("sentencia");
+            node* sent = createNode("sentencia");
             $$ = createNewTree(sent, $1, $2);
           }
           ;
 
 sentencia: decl {
-            node* declNode = createOpNode("decl");
+            node* declNode = createNode("decl");
             $$ = createNewTree(declNode, $1, NULL);            
         }
         | asign {
-            node* asignNode = createOpNode("asign");
+            node* asignNode = createOpNode(asign);
             $$ = createNewTree(asignNode, $1, NULL);
         }
         | ret {
-            node* retNode = createOpNode("ret");
+            node* retNode = createNode("ret");
             $$ = createNewTree(retNode, $1, NULL);
         }
         ;
 
 decl: var{
-        node* varNode = createOpNode("var");
+        node* varNode = createNode("var");
         $$ = createNewTree(varNode, $1, NULL);
     } 
     | cts {
-        node* ctsNode = createOpNode("cts");
+        node* ctsNode = createNode("cts");
         $$ = createNewTree(ctsNode, $1, NULL);
     }
     ;
@@ -101,13 +101,13 @@ cts: TOKEN_CONST type asign {
    }
    ;
 
-type: TOKEN_INT {$$ =  createOpNode("int");}
-    | TOKEN_BOOL {$$ =  createOpNode("bool");}
+type: TOKEN_INT {$$ =  createNode("int");}
+    | TOKEN_BOOL {$$ =  createNode("bool");}
     ;
 
 
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
-        node* asignNode = createOpNode("=");
+        node* asignNode = createOpNode(asign);
         node* idNode = createIdNode($1);
         $$ = createNewTree(asignNode, idNode, $3);
      }
@@ -121,12 +121,12 @@ ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA {
 value:
     expr 
     {   
-        node* node1 = createOpNode("expr");
+        node* node1 = createNode("expr");
         $$ = createNewTree(node1, $1, NULL);     
     }
     | exprBool
     {
-        node* node1 = createOpNode("exprBool");
+        node* node1 = createNode("exprBool");
         $$ = createNewTree(node1, $1, NULL);
     }
     ;
@@ -135,25 +135,25 @@ expr: TOKEN_NUM {$$ = createIntNode($1);}
     | TOKEN_ID {$$ = createIdNode($1); }
     | expr TOKEN_MAS expr {
 
-        node* op = createOpNode("+");
+        node* op = createOpNode(suma);
         $$ = createNewTree(op, $1, $3);
         
     }
     | expr TOKEN_MENOS expr {
 
-        node* op = createOpNode("-");
+        node* op = createOpNode(resta);
         $$ = createNewTree(op, $1, $3);
         
     }
     | expr TOKEN_DIV expr {
 
-        node* op = createOpNode("/");
+        node* op = createOpNode(divide);
         $$ = createNewTree(op, $1, $3);
         
     }
     | expr TOKEN_MULT expr  {
 
-        node* op = createOpNode("*");
+        node* op = createOpNode(mult);
         $$ = createNewTree(op, $1, $3);
         
     }
@@ -164,11 +164,11 @@ expr: TOKEN_NUM {$$ = createIntNode($1);}
 
 exprBool: TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | exprBool TOKEN_AND exprBool {
-        node* op = createOpNode("&&");
+        node* op = createOpNode(and);
         $$ = createNewTree(op, $1, $3);
     }
     | exprBool TOKEN_OR exprBool {
-        node* op = createOpNode("||");
+        node* op = createOpNode(or);
         $$ = createNewTree(op, $1, $3);
     }
     | TOKEN_PAREN_L exprBool TOKEN_PAREN_R {

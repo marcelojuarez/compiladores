@@ -6,8 +6,19 @@ typedef enum{
     NODE_NUM,
     NODE_ID,
     NODE_OP,
-    NODE_BOOL    
+    NODE_BOOL,
+    NODE  
 }NodeType;
+
+typedef enum{
+    suma,
+    resta,
+    asign,
+    divide,
+    mult,
+    or,
+    and
+} op;
 
 typedef enum {
     TYPE_INT,
@@ -36,7 +47,7 @@ typedef struct infoId{
 }infoId;
 
 typedef struct infoOp{
-    char* name;
+    op name;
     VariableType type;
     union values value;
 }infoOp;
@@ -46,6 +57,7 @@ union type{
     infoBool BOOL;
     infoId ID;
     infoOp OP;
+    char* NODE;
 };
 
 typedef struct node{
@@ -58,7 +70,8 @@ typedef struct node{
 node* createIntNode(int value);
 node* createBoolNode(int value);
 node* createIdNode(char* name);
-node* createOpNode(char* name);
+node* createOpNode(op name);
+node* createNode(char* name);
 node* newNode(NodeType type);
 node* createNewTree(node* root, node* left, node* right);
 void printNode(node* root);
