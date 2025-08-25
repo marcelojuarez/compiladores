@@ -60,9 +60,9 @@ valBool true|false
                 printf("TOKEN_VAL_BOOL \n");
 
                 if(strcmp(yytext, "true") == 0){
-                    yylval.lval = 1;
+                    yylval.ival = 1;
                 } else {
-                    yylval.lval = 0;
+                    yylval.ival = 0;
                 }
                     
                 return TOKEN_VAL_BOOL;
@@ -70,7 +70,7 @@ valBool true|false
 
 {digito}+   {
                 printf("TOKEN_NUM \n");
-                yylval.sval = atoi(yytext);
+                yylval.ival = atoi(yytext);
                 return TOKEN_NUM;
             }
 

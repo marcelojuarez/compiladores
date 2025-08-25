@@ -1,58 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef enum{
-    NODE_NUM,
-    NODE_ID,
-    NODE_OP,
-    NODE_BOOL    
-}NodeType;
-
-typedef enum {
-    TYPE_INT,
-    TYPE_BOOL
-} VariableType;
-
-union values{
-    int num;
-    int boolean;
-};
-
-typedef struct infoInt{
-    VariableType type;
-    int value;
-}infoInt;  
-
-typedef struct infoBool{
-    VariableType type;
-    int value;
-}infoBool; 
-
-typedef struct infoId{
-    char* name;
-    VariableType type;
-    union values value;
-}infoId;
-
-typedef struct infoOp{
-    char* name;
-    VariableType type;
-    union values value;
-}infoOp;
-
-union type{
-    infoInt NUM;
-    infoBool BOOL;
-    infoId ID;
-    infoOp OP;
-};
-
-typedef struct node{
-    NodeType type;
-    union type info;
-    struct node *left;
-    struct node *right;
-}node;
+#include "tree.h"
 
 node* createIntNode(int value) {
     node *root = malloc(sizeof(node));
@@ -136,6 +84,32 @@ void printNode(node* root) {
     printInOrder(root->right);
 }
 
+ void printPreOrder(node *root) {
+     if (root == NULL) {
+        return;
+     }
+    
+    printNode(root);
+
+    printPreOrder(root->left);
+
+    printInOrder(root->right);
+}
+
+void printTree(node* root, int level) {
+    if (root == NULL) return;
+
+    for (int i = 0; i < level; i++) {
+        printf("   ");  
+    }
+
+    printNode(root);
+
+    printTree(root->left, level + 1);
+    printTree(root->right, level + 1);
+}
+
+/**
 int main() {
     
     node* num = createIntNode(3);
@@ -151,4 +125,5 @@ int main() {
     return 0;
 
 }
+*/
 
