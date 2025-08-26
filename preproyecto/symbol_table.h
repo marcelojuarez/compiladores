@@ -62,7 +62,9 @@ union type {
 typedef struct symbol_table {
     union type *info;
     struct symbol_table *next;
-};
+} symbol_table;
 
+symbol_table* createSymbolTable();
+symbol_table *insertSymbol(symbol_table *head, union type value);
 
 #endif
