@@ -5,8 +5,8 @@
 node *createIntNode(int value)
 {
     node *root = newNode(NODE_NUM);
-    root->info.NUM.type = TYPE_INT;
-    root->info.NUM.value = value;
+    root->info->NUM.type = TYPE_INT;
+    root->info->NUM.value = value;
 
     return root;
 }
@@ -14,8 +14,8 @@ node *createIntNode(int value)
 node *createBoolNode(int value)
 {
     node *root = newNode(NODE_BOOL);
-    root->info.BOOL.type = TYPE_BOOL;
-    root->info.BOOL.value = value;
+    root->info->BOOL.type = TYPE_BOOL;
+    root->info->BOOL.value = value;
 
     return root;
 }
@@ -23,7 +23,7 @@ node *createBoolNode(int value)
 node *createIdNode(char *name)
 {
     node *root = newNode(NODE_ID);
-    root->info.ID.name = name;
+    root->info->ID.name = name;
 
     return root;
 }
@@ -31,7 +31,7 @@ node *createIdNode(char *name)
 node *createOpNode(op name)
 {
     node *root = newNode(NODE_OP);
-    root->info.OP.name = name;
+    root->info->OP.name = name;
 
     return root;
 }
@@ -39,7 +39,7 @@ node *createOpNode(op name)
 node *createNode(char *name)
 {
     node *root = newNode(NODE);
-    root->info.NODE = name;
+    root->info->NODE = name;
 
     return root;
 }
@@ -47,6 +47,7 @@ node *createNode(char *name)
 node *newNode(NodeType type)
 {
     node *root = malloc(sizeof(node));
+    root->info = malloc(sizeof(union type));
     root->type = type;
     root->left = NULL;  // asigno a hi
     root->right = NULL; // asigno a hd
@@ -67,16 +68,16 @@ void printNode(node *root) {
         return;
     switch (root->type) {
         case NODE_NUM:
-            printf("%d\n", root->info.NUM.value);
+            printf("%d\n", root->info->NUM.value);
             break;
         case NODE_ID:
-            printf("%s\n", root->info.ID.name ? root->info.ID.name : "NULL");
+            printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
             break;
         case NODE_BOOL:
-            printf("%s\n", root->info.BOOL.value ? "true" : "false");
+            printf("%s\n", root->info->BOOL.value ? "true" : "false");
             break;
         case NODE_OP:
-            switch (root->info.OP.name) {
+            switch (root->info->OP.name) {
             case suma:
                 printf("+\n");
                 break;
@@ -103,7 +104,7 @@ void printNode(node *root) {
             }
             break;
         case NODE:
-            printf("%s\n", root->info.NODE ? root->info.NODE : "NULL");
+            printf("%s\n", root->info->NODE ? root->info->NODE : "NULL");
             break;
         default:
             printf("UNKNOWN NODE\n");
@@ -161,7 +162,7 @@ int main() {
     node* num = createIntNode(3);
     node* num1 = createIntNode(5);
 
-    node* op = createOpNode("+");
+    node* op = createOpNode(suma);
 
     node* tree = createNewTree(op, num, num1);
 

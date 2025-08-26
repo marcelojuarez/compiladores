@@ -62,7 +62,7 @@ union type{
 
 typedef struct node{
     NodeType type;
-    union type info;
+    union type *info;
     struct node *left;
     struct node *right;
 }node;
