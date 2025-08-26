@@ -68,7 +68,7 @@ sentencia: decl {
             $$ = createNewTree(declNode, $1, NULL);            
         }
         | asign {
-            node* asignNode = createOpNode(asign);
+            node* asignNode = createNode("asign");
             $$ = createNewTree(asignNode, $1, NULL);
         }
         | ret {
