@@ -1,0 +1,9 @@
+# archivos compilados
+a.out
+main
+tree
+
+# archivos generados por Bison/Flex
+calc-sintaxis.tab.c
+calc-sintaxis.tab.h
+lex.yy.c
