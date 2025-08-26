@@ -31,7 +31,7 @@ node* root;
 %left TOKEN_MULT TOKEN_DIV
 %left TOKEN_AND TOKEN_OR
 
-%type <nd> return_type body sentencia sentencias decl asign ret cts var type value expr exprBool 
+%type <nd> return_type body sentencia sentencias decl asign ret cts var type value expr 
 
 %%
 
@@ -105,7 +105,6 @@ type: TOKEN_INT {$$ =  createNode("int");}
     | TOKEN_BOOL {$$ =  createNode("bool");}
     ;
 
-
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* asignNode = createOpNode(asign);
         node* idNode = createIdNode($1);
@@ -124,55 +123,37 @@ value:
         node* node1 = createNode("expr");
         $$ = createNewTree(node1, $1, NULL);     
     }
-    | exprBool
-    {
-        node* node1 = createNode("exprBool");
-        $$ = createNewTree(node1, $1, NULL);
-    }
     ;
 
 expr: TOKEN_NUM {$$ = createIntNode($1);}
     | TOKEN_ID {$$ = createIdNode($1); }
+    | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | expr TOKEN_MAS expr {
-
         node* op = createOpNode(suma);
         $$ = createNewTree(op, $1, $3);
-        
     }
     | expr TOKEN_MENOS expr {
-
         node* op = createOpNode(resta);
-        $$ = createNewTree(op, $1, $3);
-        
+        $$ = createNewTree(op, $1, $3); 
     }
     | expr TOKEN_DIV expr {
-
         node* op = createOpNode(divide);
-        $$ = createNewTree(op, $1, $3);
-        
+        $$ = createNewTree(op, $1, $3);        
     }
     | expr TOKEN_MULT expr  {
-
         node* op = createOpNode(mult);
-        $$ = createNewTree(op, $1, $3);
-        
+        $$ = createNewTree(op, $1, $3);     
     }
     | TOKEN_PAREN_L expr TOKEN_PAREN_R  {
         $$ = $2;        
     }
-    ;
-
-exprBool: TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
-    | exprBool TOKEN_AND exprBool {
+    | expr TOKEN_AND expr {
         node* op = createOpNode(and);
         $$ = createNewTree(op, $1, $3);
     }
-    | exprBool TOKEN_OR exprBool {
+    | expr TOKEN_OR expr {
         node* op = createOpNode(or);
         $$ = createNewTree(op, $1, $3);
-    }
-    | TOKEN_PAREN_L exprBool TOKEN_PAREN_R {
-        $$ = $2;
     }
     ;
     
