@@ -2,6 +2,8 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include "common.h"
+
 typedef enum{
     NODE_NUM,
     NODE_ID,
@@ -19,11 +21,6 @@ typedef enum{
     or,
     and
 } op;
-
-typedef enum {
-    TYPE_INT,
-    TYPE_BOOL
-} VariableType;
 
 union values{
     int num;

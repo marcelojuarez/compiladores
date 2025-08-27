@@ -1,68 +1,25 @@
-#ifndef SYMBOL_TABLE_H
-#define SYMBOL_TABLE_H
+// types.h
+#ifndef SYMBOL_TABLE
+#define SYMBOL_TABLE
 
-typedef enum {
-    NODE_NUM,
-    NODE_ID,
-    NODE_OP,
-    NODE_BOOL,
-    NODE  
-} NodeType;
+#include "common.h"
 
-typedef enum{
-    suma,
-    resta,
-    asign,
-    divide,
-    mult,
-    op_or,
-    op_and
-} op;
-
-typedef enum {
-    TYPE_INT,
-    TYPE_BOOL
-} VariableType;
-
-union values {
-    int num;
-    int boolean;
-};
-
-typedef struct infoInt {
-    VariableType type;
-    int value;
-} infoInt;  
-
-typedef struct infoBool {
-    VariableType type;
-    int value;
-} infoBool; 
-
-typedef struct infoId {
+typedef struct symbol {
     char* name;
     VariableType type;
-    union values value;
-} infoId;
-
-typedef struct infoOp {
-    op name;
-    VariableType type;
-    union values value;
-} infoOp;
-
-union type {
-    infoInt NUM;
-    infoBool BOOL;
-    infoId ID;
-    infoOp OP;
-    char* NODE;
-};
+    int value;
+}symbol;
 
 typedef struct symbol_table {
-    union type *info;
+    symbol info;
     struct symbol_table *next;
-};
+}symbol_table;
 
+symbol_table* create_symbol_table_of_tree(symbol_table* tree);
+void aux_create_symbol_table_of_tree(symbol_table* tree, symbol_table table);
+symbol create_symbol(char* name, VariableType type, int value);
+int search_symbol(symbol_table *table, char* name);
+void insert_symbol(symbol_table **table, symbol s);
+void print_symbol_table(symbol_table *table);
 
 #endif
