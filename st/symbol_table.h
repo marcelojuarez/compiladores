@@ -6,15 +6,13 @@
 #include "tree.h"
 
 typedef struct symbol {
-    char* name;
-    VariableType type;
-    int value;
-}symbol;
+    union type *info;
+} symbol;
 
 typedef struct symbol_table {
-    symbol info;
+    symbol s;
     struct symbol_table *next;
-}symbol_table;
+} symbol_table;
 
 symbol_table* create_symbol_table_of_tree(node* tree);
 void aux_create_symbol_table_of_tree(node* tree, symbol_table **table);

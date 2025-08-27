@@ -12,6 +12,8 @@ node* root;
 
 %code requires {
     #include "tree.h"
+    #include "symbol_table.h"
+    extern FILE *yyin;
 }
 
 %union {
@@ -159,13 +161,24 @@ expr: TOKEN_NUM {$$ = createIntNode($1);}
     
 %%
 
-int main() {
+int main(int argc, char *argv[]) {
+    
+    FILE *input_file = fopen(argv[1], "r");
+
+    yyin = input_file;
+
     if (yyparse() == 0) {
         printf("Parseado correctamente, sin errores.\n");
-        printTree(root, 0); 
+        printTree(root, 0);
+
+        symbol_table* table = create_symbol_table_of_tree(root);
+        print_symbol_table(table);
     }
+
+    fclose(input_file);
     return 0;
 }
+
 
 int yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);

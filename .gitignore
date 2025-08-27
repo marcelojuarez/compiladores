@@ -7,3 +7,8 @@ tree
 calc-sintaxis.tab.c
 calc-sintaxis.tab.h
 lex.yy.c
+
+.vscode
+script
+prueba.txt
+parser
