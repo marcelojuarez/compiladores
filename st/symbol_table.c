@@ -27,7 +27,7 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
             return;
         }
     } 
-    
+
     aux_create_symbol_table_of_tree(root->left, table);
     aux_create_symbol_table_of_tree(root->right, table);
 }
@@ -58,6 +58,24 @@ void insert_symbol(symbol_table **table, symbol s){
             *table = aux;
         }
     }
+}
+
+void check_vars(node* tree, symbol_table* table) {
+    node* aux = tree;
+    if (aux == NULL) {
+        return;
+    }
+
+    if (aux->type == NODE_ASIGN || aux->type == NODE_DECL) {
+        union type* found = search_symbol(table, aux->info->ID.name);
+
+        if (found == NULL) {
+            printf("Error: Variable %s no declarada\n", aux->info->ID.name);
+        }
+    }
+    
+    check_vars(aux->left, table);
+    check_vars(aux->right, table);
 }
 
 

@@ -18,8 +18,7 @@ symbol_table* create_symbol_table_of_tree(node* tree);
 void aux_create_symbol_table_of_tree(node* tree, symbol_table **table);
 union type*  search_symbol(symbol_table *table, char* name);
 void insert_symbol(symbol_table **table, symbol s);
-void check_expr(node* expr, symbol_table* table);
+void check_vars(node* tree, symbol_table* table);
 void print_symbol_table(symbol_table *table);
-int check_variables(node* root, symbol_table* table)
 
 #endif
