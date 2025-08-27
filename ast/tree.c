@@ -2,8 +2,7 @@
 #include <stdlib.h>
 #include "tree.h"
 
-node *createIntNode(int value)
-{
+node *createIntNode(int value) {
     node *root = newNode(NODE_NUM);
     root->info->NUM.type = TYPE_INT;
     root->info->NUM.value = value;
@@ -11,8 +10,7 @@ node *createIntNode(int value)
     return root;
 }
 
-node *createBoolNode(int value)
-{
+node *createBoolNode(int value) {
     node *root = newNode(NODE_BOOL);
     root->info->BOOL.type = TYPE_BOOL;
     root->info->BOOL.value = value;
@@ -20,32 +18,28 @@ node *createBoolNode(int value)
     return root;
 }
 
-node *createIdNode(char *name)
-{
+node *createIdNode(char *name) {
     node *root = newNode(NODE_ID);
     root->info->ID.name = name;
 
     return root;
 }
 
-node *createOpNode(op name)
-{
+node *createOpNode(op name) {
     node *root = newNode(NODE_OP);
     root->info->OP.name = name;
 
     return root;
 }
 
-node *createNode(char *name)
-{
+node *createNode(char *name) {
     node *root = newNode(NODE);
     root->info->NODE = name;
 
     return root;
 }
 
-node *newNode(NodeType type)
-{
+node *newNode(NodeType type) {
     node *root = malloc(sizeof(node));
     root->info = malloc(sizeof(union type));
     root->type = type;
@@ -55,8 +49,7 @@ node *newNode(NodeType type)
     return root;
 }
 
-node *createNewTree(node *root, node *left, node *right)
-{
+node *createNewTree(node *root, node *left, node *right) {
     node *newRoot = root;
     newRoot->left = left;
     newRoot->right = right;
@@ -112,46 +105,35 @@ void printNode(node *root) {
         }
 }
 
-void printInOrder(node *root)
-{
-    if (root == NULL)
-    {
+void printInOrder(node *root) {
+    if (root == NULL) {
         return;
     }
 
     printInOrder(root->left);
-
     printNode(root);
-
     printInOrder(root->right);
 }
 
-void printPreOrder(node *root)
-{
-    if (root == NULL)
-    {
+void printPreOrder(node *root) {
+    if (root == NULL) {
         return;
     }
 
     printNode(root);
-
     printPreOrder(root->left);
-
     printInOrder(root->right);
 }
 
-void printTree(node *root, int level)
-{
+void printTree(node *root, int level) {
     if (root == NULL)
         return;
 
-    for (int i = 0; i < level; i++)
-    {
+    for (int i = 0; i < level; i++){
         printf("   ");
     }
 
     printNode(root);
-
     printTree(root->left, level + 1);
     printTree(root->right, level + 1);
 }
