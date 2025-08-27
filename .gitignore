@@ -12,4 +12,4 @@ lex.yy.c
 script
 prueba.txt
 parser
-.o
+*.o
