@@ -102,7 +102,10 @@ var: type TOKEN_ID TOKEN_PUNTO_Y_COMA {
     | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* idNode = createIdDecl($2, $1, NODE_DECL);
         node* tyNode = createTypeNode($1);
-        $$ = createNewTree(tyNode, idNode, NULL);
+        node* asignNode = createOpNode(asign);
+        node* subTreeAsign = createNewTree(asignNode, idNode, $4);
+        
+        $$ = createNewTree(tyNode, subTreeAsign, NULL);
     }
     ;
 

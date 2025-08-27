@@ -6,9 +6,7 @@
 
 symbol_table* create_symbol_table_of_tree(node* root){
         symbol_table *table = NULL;
-
         aux_create_symbol_table_of_tree(root, &table);
-
         return table;
 }
 
@@ -17,19 +15,21 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
         return;
     }
 
+    symbol s; 
     if (root->type == NODE_DECL) {
-        symbol s; 
+        
         s.info = root->info;
         insert_symbol(table, s);  
     } else if (root->type == NODE_ASIGN) {
-        symbol s;
         s.info = search_symbol(*table, root->info->ID.name);
         if (s.info == NULL) {
-            printf("Symbol not found.");
+            printf("Symbol %s not found.\n", root->info->ID.name);
             return;
         }
+    } else if(root->type == NODE_NUM) {
+        s.info->NUM.value = root->info->NUM.value;
+        return;
     }
-
     aux_create_symbol_table_of_tree(root->left, table);
     aux_create_symbol_table_of_tree(root->right, table);
 }
@@ -38,9 +38,7 @@ union type* search_symbol(symbol_table *table, char* name){
     if (table == NULL) {
         return NULL;
     }
-
     symbol_table *cursor = table;
-
     while(cursor->next != NULL) {
         if (strcmp(cursor->s.info->ID.name, name) == 0) {
             return cursor->s.info;
@@ -70,35 +68,31 @@ void print_symbol_table(symbol_table *table){
         printf(" ");
         return;
     }
-
     symbol_table *cursor = table;
-    
-    printf("[ ");
-
+    printf("-----\n");
     while(cursor != NULL){
         printf("ID:  %s\n", cursor->s.info->ID.name);
         switch(cursor->s.info->ID.type) {
             case TYPE_BOOL:
-                printf("TYPE_BOOL\n");
+                printf("TYPE: BOOL");
                 break;
             case TYPE_INT:
-                printf("TYPE_INT\n");
+                printf("TYPE: INT");
                 break;
         }
-            
+        /*
         if (cursor->s.info->ID.type == TYPE_BOOL) {
             printf(cursor->s.info->ID.value.num == 1 ? "true" : "false");
         } else {
             printf("VALUE: %d", cursor->s.info->ID.value.num);
-        }        
+        } 
+        */   
         if (cursor->next != NULL) {
-            printf(" ,\n");
+            printf("\n-----\n");
         }
-
         cursor = cursor->next;
     }
-
-    printf(" ]\n");
+    printf("\n-----\n");
 }
 
 /*

@@ -96,12 +96,10 @@ void printNode(node *root) {
                     printf("BOOL\n");
                     break; 
                 default:
-                    printf("ACA\n");
                     break;
             }
             break;
         case NODE_OP:
-            printf("aca\n");
             switch (root->info->OP.name) {
             case suma:
                 printf("+\n");

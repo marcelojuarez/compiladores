@@ -11,6 +11,7 @@ typedef enum{
     NODE_OP,
     NODE_BOOL,
     NODE_TYPE,
+    NODE_ID,
     NODE  
 }NodeType;
 
