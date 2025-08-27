@@ -91,7 +91,6 @@ void print_symbol_table(symbol_table *table){
     }
 }
 
-
 int main(){
 
     return 0;
