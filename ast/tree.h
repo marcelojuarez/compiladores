@@ -7,7 +7,7 @@
 typedef enum{
     NODE_NUM,
     NODE_DECL,
-    NODE_EXPR,
+    NODE_ASIGN,
     NODE_OP,
     NODE_BOOL,
     NODE_TYPE,

@@ -1,4 +1,4 @@
-// types.h
+
 #ifndef SYMBOL_TABLE
 #define SYMBOL_TABLE
 
@@ -16,7 +16,7 @@ typedef struct symbol_table {
 
 symbol_table* create_symbol_table_of_tree(node* tree);
 void aux_create_symbol_table_of_tree(node* tree, symbol_table **table);
-int search_symbol(symbol_table *table, char* name);
+union type*  search_symbol(symbol_table *table, char* name);
 void insert_symbol(symbol_table **table, symbol s);
 void print_symbol_table(symbol_table *table);
 

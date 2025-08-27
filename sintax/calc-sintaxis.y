@@ -118,7 +118,7 @@ type: TOKEN_INT {$$ = TYPE_INT;}
 
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* asignNode = createOpNode(asign);
-        node* idNode = createIdExpr($1, NODE_EXPR);
+        node* idNode = createIdExpr($1, NODE_ASIGN);
         $$ = createNewTree(asignNode, idNode, $3);
      }
      ;
@@ -137,7 +137,7 @@ value:
     ;
 
 expr: TOKEN_NUM {$$ = createIntNode($1);}
-    | TOKEN_ID {$$ = createIdExpr($1, NODE_EXPR); }
+    | TOKEN_ID {$$ = createIdExpr($1, NODE_ASIGN); }
     | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | expr TOKEN_MAS expr {
         node* op = createOpNode(suma);
@@ -180,8 +180,8 @@ int main(int argc, char *argv[]) {
         printf("Parseado correctamente, sin errores.\n");
         printTree(root, 0);
 
-        //symbol_table* table = create_symbol_table_of_tree(root);
-        //print_symbol_table(table);
+        symbol_table* table = create_symbol_table_of_tree(root);
+        print_symbol_table(table);
     }
 
     fclose(input_file);

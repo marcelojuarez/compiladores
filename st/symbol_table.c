@@ -19,40 +19,41 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
 
     if (root->type == NODE_DECL) {
         symbol s; 
-        s.info = malloc(sizeof(symbol));
-        s.info->ID.name = root->info->ID.name;
-        s.info->ID.type = root->info->ID.type;
-        s.info->ID.value.num = root->info->ID.value.num;
-        insert_symbol(table, s);
+        s.info = root->info;
+        insert_symbol(table, s);  
+    } else if (root->type == NODE_ASIGN) {
+        symbol s;
+        s.info = search_symbol(*table, root->info->ID.name);
+        if (s.info == NULL) {
+            printf("Symbol not found.");
+            return;
+        }
     }
 
     aux_create_symbol_table_of_tree(root->left, table);
     aux_create_symbol_table_of_tree(root->right, table);
 }
 
-int search_symbol(symbol_table *table, char* name){
+union type* search_symbol(symbol_table *table, char* name){
     if (table == NULL) {
-        return 0;
+        return NULL;
     }
 
     symbol_table *cursor = table;
 
-    while(cursor != NULL) {
+    while(cursor->next != NULL) {
         if (strcmp(cursor->s.info->ID.name, name) == 0) {
-            return 1;
+            return cursor->s.info;
         }
         cursor = cursor->next;
     }
-    return 0;
+    return NULL;
 }
 
 void insert_symbol(symbol_table **table, symbol s){
-    if (search_symbol(*table, s.info->ID.name) == 0){    
+    if (search_symbol(*table, s.info->ID.name) == NULL){    
         symbol_table *aux = malloc(sizeof(symbol_table));
-        aux->s.info = malloc(sizeof(symbol));
-        aux->s.info->ID.name = s.info->ID.name;
-        aux->s.info->ID.type = s.info->ID.type;
-        aux->s.info->ID.value.num = s.info->ID.value.num;
+        aux->s.info = s.info;
 
         if (*table == NULL) {
             *table = aux;
