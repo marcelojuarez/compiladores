@@ -26,7 +26,8 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
             printf("Symbol %s not found.\n", root->info->ID.name);
             return;
         }
-        
+    } 
+    
     aux_create_symbol_table_of_tree(root->left, table);
     aux_create_symbol_table_of_tree(root->right, table);
 }
