@@ -17,7 +17,7 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
         return;
     }
 
-    if (root->type == NODE_ID) {
+    if (root->type == NODE_DECL) {
         symbol s; 
         s.info = malloc(sizeof(symbol));
         s.info->ID.name = root->info->ID.name;

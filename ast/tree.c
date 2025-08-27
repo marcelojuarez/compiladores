@@ -18,8 +18,16 @@ node *createBoolNode(int value) {
     return root;
 }
 
-node *createIdNode(char *name) {
-    node *root = newNode(NODE_ID);
+node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode) {
+    node *root = newNode(typeNode);
+    root->info->ID.name = name;
+    root->info->ID.type = typeVar;
+
+    return root;
+}
+
+node *createIdExpr(char *name, NodeType typeNode) {
+    node *root = newNode(typeNode);
     root->info->ID.name = name;
 
     return root;
@@ -28,6 +36,13 @@ node *createIdNode(char *name) {
 node *createOpNode(op name) {
     node *root = newNode(NODE_OP);
     root->info->OP.name = name;
+
+    return root;
+}
+
+node* createTypeNode(VariableType type){
+    node* root = newNode(NODE_TYPE);
+    root->info->NODE_TYPE = type;
 
     return root;
 }
@@ -63,13 +78,30 @@ void printNode(node *root) {
         case NODE_NUM:
             printf("%d\n", root->info->NUM.value);
             break;
-        case NODE_ID:
+        case NODE_DECL:
+            printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
+            break;
+        case NODE_EXPR:
             printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
             break;
         case NODE_BOOL:
             printf("%s\n", root->info->BOOL.value ? "true" : "false");
             break;
+        case NODE_TYPE:
+            switch(root->info->NODE_TYPE) {
+                case TYPE_INT:
+                    printf("INT\n");
+                    break;
+                case TYPE_BOOL:
+                    printf("BOOL\n");
+                    break; 
+                default:
+                    printf("ACA\n");
+                    break;
+            }
+            break;
         case NODE_OP:
+            printf("aca\n");
             switch (root->info->OP.name) {
             case suma:
                 printf("+\n");
@@ -97,7 +129,7 @@ void printNode(node *root) {
             }
             break;
         case NODE:
-            printf("%s\n", root->info->NODE ? root->info->NODE : "NULL");
+             printf("%s\n", root->info->NODE ? root->info->NODE : "NULL");
             break;
         default:
             printf("UNKNOWN NODE\n");

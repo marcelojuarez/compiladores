@@ -20,6 +20,8 @@ node* root;
     int ival;
     char* sval;
     node* nd;
+    VariableType vtype;
+    NodeType ntype;
 }
 
 %token TOKEN_VOID TOKEN_RETURN TOKEN_ASSIGN TOKEN_EQUALS TOKEN_CONST TOKEN_PUNTO_Y_COMA
@@ -33,13 +35,14 @@ node* root;
 %left TOKEN_MULT TOKEN_DIV
 %left TOKEN_AND TOKEN_OR
 
-%type <nd> return_type body sentencia sentencias decl asign ret cts var type value expr 
-
+%type <nd> return_type body sentencia sentencias decl asign ret cts var value expr 
+%type <vtype> type
 %%
 
 prog:
     return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R 
     {
+
         node* rt = createNode("program");
         root = createNewTree(rt, $1, $6);
     }
@@ -48,7 +51,9 @@ prog:
 return_type: TOKEN_VOID {
                 $$ = createNode("void");
             }
-            | type
+            | type {
+                $$ = createTypeNode($1);
+            }
             ; 
 
 body: sentencias { 
@@ -90,26 +95,30 @@ decl: var{
     ;
 
 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA {
-        node* idNode = createIdNode($2);
-        $$ = createNewTree($1, idNode, NULL);
+        node* idNode = createIdDecl($2, $1, NODE_DECL);
+        node* tyNode = createTypeNode($1);
+        $$ = createNewTree(tyNode, idNode, NULL);
     }
-    | type asign {
-        $$ = createNewTree($1, $2, NULL);
+    | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
+        node* idNode = createIdDecl($2, $1, NODE_DECL);
+        node* tyNode = createTypeNode($1);
+        $$ = createNewTree(tyNode, idNode, NULL);
     }
     ;
 
 cts: TOKEN_CONST type asign {
-        $$ = createNewTree($2, $3, NULL);
+        node* tyNode = createTypeNode($2);
+        $$ = createNewTree(tyNode, $3, NULL);
    }
    ;
 
-type: TOKEN_INT {$$ =  createNode("int");}
-    | TOKEN_BOOL {$$ =  createNode("bool");}
+type: TOKEN_INT {$$ = TYPE_INT;}
+    | TOKEN_BOOL {$$ = TYPE_BOOL;}
     ;
 
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* asignNode = createOpNode(asign);
-        node* idNode = createIdNode($1);
+        node* idNode = createIdExpr($1, NODE_EXPR);
         $$ = createNewTree(asignNode, idNode, $3);
      }
      ;
@@ -128,7 +137,7 @@ value:
     ;
 
 expr: TOKEN_NUM {$$ = createIntNode($1);}
-    | TOKEN_ID {$$ = createIdNode($1); }
+    | TOKEN_ID {$$ = createIdExpr($1, NODE_EXPR); }
     | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | expr TOKEN_MAS expr {
         node* op = createOpNode(suma);
@@ -171,8 +180,8 @@ int main(int argc, char *argv[]) {
         printf("Parseado correctamente, sin errores.\n");
         printTree(root, 0);
 
-        symbol_table* table = create_symbol_table_of_tree(root);
-        print_symbol_table(table);
+        //symbol_table* table = create_symbol_table_of_tree(root);
+        //print_symbol_table(table);
     }
 
     fclose(input_file);

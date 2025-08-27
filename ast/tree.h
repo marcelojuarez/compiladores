@@ -2,13 +2,15 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include "common.h"
+#include "../common.h"
 
 typedef enum{
     NODE_NUM,
-    NODE_ID,
+    NODE_DECL,
+    NODE_EXPR,
     NODE_OP,
     NODE_BOOL,
+    NODE_TYPE,
     NODE  
 }NodeType;
 
@@ -55,6 +57,7 @@ union type{
     infoId ID;
     infoOp OP;
     char* NODE;
+    VariableType NODE_TYPE;
 };
 
 typedef struct node{
@@ -66,8 +69,10 @@ typedef struct node{
 
 node* createIntNode(int value);
 node* createBoolNode(int value);
-node* createIdNode(char* name);
+node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode);
+node *createIdExpr(char *name, NodeType typeNode);
 node* createOpNode(op name);
+node* createTypeNode(VariableType type);
 node* createNode(char* name);
 node* newNode(NodeType type);
 node* createNewTree(node* root, node* left, node* right);
