@@ -24,9 +24,9 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
         s.info = search_symbol(*table, root->info->ID.name);
         if (s.info == NULL) {
             printf("Symbol %s not found.\n", root->info->ID.name);
-            return;
+            exit(EXIT_FAILURE);   
         }
-    } 
+    }
 
     aux_create_symbol_table_of_tree(root->left, table);
     aux_create_symbol_table_of_tree(root->right, table);
@@ -37,7 +37,7 @@ union type* search_symbol(symbol_table *table, char* name){
         return NULL;
     }
     symbol_table *cursor = table;
-    while(cursor->next != NULL) {
+    while(cursor != NULL) {
         if (strcmp(cursor->s.info->ID.name, name) == 0) {
             return cursor->s.info;
         }
@@ -47,7 +47,7 @@ union type* search_symbol(symbol_table *table, char* name){
 }
 
 void insert_symbol(symbol_table **table, symbol s){
-    if (search_symbol(*table, s.info->ID.name) == NULL){    
+    if (search_symbol(*table, s.info->ID.name) == NULL){
         symbol_table *aux = malloc(sizeof(symbol_table));
         aux->s.info = s.info;
 
@@ -57,6 +57,9 @@ void insert_symbol(symbol_table **table, symbol s){
             aux->next = *table;
             *table = aux;
         }
+    } else {
+        printf("error, variable already exists\n");
+        exit(EXIT_FAILURE);
     }
 }
 
