@@ -33,10 +33,10 @@ node *createIdExpr(char *name, NodeType typeNode) {
     return root;
 }
 
-node *createOpNode(op name) {
+node *createOpNode(op name, VariableType type) {
     node *root = newNode(NODE_OP);
     root->info->OP.name = name;
-
+    root->info->OP.type = type;
     return root;
 }
 
@@ -47,9 +47,10 @@ node* createTypeNode(VariableType type){
     return root;
 }
 
-node *createNode(char *name) {
+node *createNode(char *name, VariableType type) {
     node *root = newNode(NODE);
-    root->info->NODE = name;
+    root->info->NODE.info = name;
+    root->info->NODE.type = type;
 
     return root;
 }
@@ -127,7 +128,7 @@ void printNode(node *root) {
             }
             break;
         case NODE:
-             printf("%s\n", root->info->NODE ? root->info->NODE : "NULL");
+             printf("%s\n", root->info->NODE.info ? root->info->NODE.info : "NULL");
             break;
         default:
             printf("UNKNOWN NODE\n");

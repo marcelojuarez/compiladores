@@ -98,6 +98,9 @@ void print_symbol_table(symbol_table *table){
             case TYPE_INT:
                 printf("TYPE: INT");
                 break;
+            case NONE:
+                printf("TYPE: NONE");
+                break;
         }
         /*
         if (cursor->s.info->ID.type == TYPE_BOOL) {

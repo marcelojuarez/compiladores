@@ -4,7 +4,8 @@
 
 typedef enum {
     TYPE_INT,
-    TYPE_BOOL
+    TYPE_BOOL,
+    NONE
 } VariableType;
 
 #endif

@@ -11,7 +11,6 @@ typedef enum{
     NODE_OP,
     NODE_BOOL,
     NODE_TYPE,
-    NODE_ID,
     NODE  
 }NodeType;
 
@@ -52,12 +51,17 @@ typedef struct infoOp{
     union values value;
 }infoOp;
 
+typedef struct infoNode{
+    char* info;
+    VariableType type; 
+}infoNode;
+
 union type{
     infoInt NUM;
     infoBool BOOL;
     infoId ID;
     infoOp OP;
-    char* NODE;
+    infoNode NODE;
     VariableType NODE_TYPE;
 };
 
@@ -72,9 +76,9 @@ node* createIntNode(int value);
 node* createBoolNode(int value);
 node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode);
 node *createIdExpr(char *name, NodeType typeNode);
-node* createOpNode(op name);
+node* createOpNode(op name, VariableType type);
 node* createTypeNode(VariableType type);
-node* createNode(char* name);
+node* createNode(char* name, VariableType type);
 node* newNode(NodeType type);
 node* createNewTree(node* root, node* left, node* right);
 void printNode(node* root);
