@@ -29,12 +29,12 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
         // Un nodo uso se verifica que este en la tabla de simbolos
 
         s.info = search_symbol(*table, root->info->ID.name);
-        printf("Recupero %s de la tabla de simbolos con: %d \n", s.info->ID.name, s.info->ID.type);
 
         if (s.info == NULL) {
             printf("Symbol %s not found.\n", root->info->ID.name);
             exit(EXIT_FAILURE);   
         }
+        printf("Recupero %s de la tabla de simbolos con: %d \n", s.info->ID.name, s.info->ID.type);
 
         // Se actualiza la informacion del nodo con la info que esta en la tabla
 

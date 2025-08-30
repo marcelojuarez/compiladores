@@ -46,18 +46,50 @@ VariableType return_types(node* root){
     }
 
     if (root->left != NULL && root->right != NULL) {
-        VariableType left = return_types(root->left);
-        VariableType right = return_types(root->right);
+        
+        printf("Entro a ver los tipos \n");
+        VariableType leftType = return_types(root->left);
+        VariableType rightType = return_types(root->right);
+        printf("Salgo de ver los tipos \n");
 
-        printf(" %d == %d ?", left, right);
+        switch (root->info->OP.name) {
+            
+            case suma:
+            case resta:
+            case divide:
+            case mult:
+                printf("Operacion aritmetica\n");
+                if(leftType != TYPE_INT || rightType != TYPE_INT) {
+                    printf("Error de tipos. Requiere tipo entero\n");
+                    exit(EXIT_FAILURE); 
+                }
+                return leftType;
+                break;
 
-        if (right == left){
-            printf("Sin error de tipos \n");
-            return right;
-        } else {
-            printf("Tipos incompatibles\n");
-            exit(EXIT_FAILURE); 
+            case asign:
+                printf("Operacion de asignacion\n");
+                if(leftType != rightType) {
+                    printf("Error de tipos. Tipos incompatible\n");
+                    exit(EXIT_FAILURE); 
+                }
+                return leftType;
+                break;
+            
+            case or:
+            case and:
+                printf("Operacion booleana\n");
+                if(leftType != TYPE_BOOL || rightType!= TYPE_BOOL) {
+                    printf("Error de tipos. Requiere tipo booleano\n");
+                    exit(EXIT_FAILURE); 
+                }
+                return leftType;
+                break;
+            default:
+                printf("Operacion DESCONOCIDA\n");
+                return leftType;
+                break;
         }
+        
     }
     printf("Llegue aca y retorno NONE \n");
     return NONE;
@@ -69,51 +101,10 @@ void check_types(node* root) {
     }
 
     if (root->type == NODE_OP) {
-        switch (root->info->OP.name) {
-            case suma:
-                printf("Entro por la operacion SUMA\n");
-                break;
-            case resta:
-                printf("Entro por la operacion RESTA\n");
-                break;
-            case asign:
-                printf("Entro por la operacion ASIGNACION\n");
-                break;
-            case divide:
-                printf("Entro por la operacion DIVISION\n");
-                break;
-            case mult:
-                printf("Entro por la operacion MULTIPLICACION\n");
-                break;
-            case or:
-                printf("Entro por la operacion OR\n");
-                break;
-            case and:
-                printf("Entro por la operacion AND\n");
-                break;
-            default:
-                printf("Operacion DESCONOCIDA\n");
-                break;
-        }
-
-        VariableType typeNode = return_types(root);
-
-        switch(typeNode){
-            case TYPE_INT:
-                printf("Operacion entera \n");
-                break;
-            case TYPE_BOOL:
-                printf("Operacion booleana \n");
-                break;
-            case NONE:
-                printf("no tiene tipo \n");
-                break;
-        }
+        return_types(root);
     } else {
-        //printf("No hay operaciones \n");
+         //printf("No hay operaciones \n");
         check_types(root->left);
         check_types(root->right);
     }
 }
-
-
