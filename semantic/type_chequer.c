@@ -12,27 +12,27 @@ VariableType return_types(node* root){
     if (root->left == NULL && root->right == NULL) {
         switch(root->type) {
             case NODE_NUM:
-                printf("ENTRE POR ACAAA INT\n");
-                printf("%d \n", root->info->NUM.value);
-                printf("tipo de INT \n");
+                printf("simbolo %d: ", root->info->NUM.value);
+                printf("tipo:  %d \n", root->info->NUM.type);
                 return root->info->NUM.type;
                 break;
             case NODE_BOOL:
-                printf("ENTRE POR ACA BOOL\n");
-                printf("%d \n", root->info->BOOL.value);
-                printf("tipo de BOOL\n");
+                printf("simbolo %d: ", root->info->BOOL.value);
+                printf("tipo:  %d \n", root->info->BOOL.type);
                 return root->info->BOOL.type;
                 break;
-            case NODE_ASIGN:
-                printf("ENTRE POR ACA ID USO\n");
-                printf("%s ", root->info->ID.name);
-                printf(" tipo DE ID USO %d \n", root->info->ID.type);
+            case NODE_ID_USE:
+                printf("simbolo %s: ", root->info->ID.name);
+                printf("tipo  %d \n", root->info->ID.type);
                 return root->info->ID.type;
                 break;
             case NODE_DECL:
-                printf("ENTRE POR ACA ID DECL\n");
-                printf("%s \n", root->info->ID.name);
+                printf("simbolo %s: ", root->info->ID.name);
+                printf("tipo  %d \n", root->info->ID.type);
                 return root->info->ID.type;
+                break;
+            default:
+                printf("Entro por default \n");
                 break;
         }
     }
@@ -48,6 +48,8 @@ VariableType return_types(node* root){
     if (root->left != NULL && root->right != NULL) {
         VariableType left = return_types(root->left);
         VariableType right = return_types(root->right);
+
+        printf(" %d == %d ?", left, right);
 
         if (right == left){
             printf("Sin error de tipos \n");
@@ -94,7 +96,6 @@ void check_types(node* root) {
                 break;
         }
 
-
         VariableType typeNode = return_types(root);
 
         switch(typeNode){
@@ -103,6 +104,9 @@ void check_types(node* root) {
                 break;
             case TYPE_BOOL:
                 printf("Operacion booleana \n");
+                break;
+            case NONE:
+                printf("no tiene tipo \n");
                 break;
         }
     } else {

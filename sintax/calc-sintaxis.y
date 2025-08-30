@@ -122,7 +122,7 @@ type: TOKEN_INT {$$ = TYPE_INT;}
 
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* asignNode = createOpNode(asign, NONE);
-        node* idNode = createIdExpr($1, NODE_ASIGN);
+        node* idNode = createIdExpr($1, NODE_ID_USE);
         $$ = createNewTree(asignNode, idNode, $3);
      }
      ;
@@ -141,7 +141,7 @@ value:
     ;
 
 expr: TOKEN_NUM {$$ = createIntNode($1);}
-    | TOKEN_ID {$$ = createIdExpr($1, NODE_ASIGN); }
+    | TOKEN_ID {$$ = createIdExpr($1, NODE_ID_USE); }
     | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | expr TOKEN_MAS expr {
         node* op = createOpNode(suma, NONE);

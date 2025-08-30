@@ -17,15 +17,29 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
 
     symbol s; 
     if (root->type == NODE_DECL) {
-        
+
+        // Un nodo declaracion se agrega a la tabla de simbolos
+
         s.info = root->info;
+        printf("inserto %s en la tabla de simbolos con: %d \n", root->info->ID.name, root->info->ID.type);
         insert_symbol(table, s);  
-    } else if (root->type == NODE_ASIGN) {
+
+    } else if (root->type == NODE_ID_USE) {
+
+        // Un nodo uso se verifica que este en la tabla de simbolos
+
         s.info = search_symbol(*table, root->info->ID.name);
+        printf("Recupero %s de la tabla de simbolos con: %d \n", s.info->ID.name, s.info->ID.type);
+
         if (s.info == NULL) {
             printf("Symbol %s not found.\n", root->info->ID.name);
             exit(EXIT_FAILURE);   
         }
+
+        // Se actualiza la informacion del nodo con la info que esta en la tabla
+
+        root->info = s.info;
+
     }
 
     aux_create_symbol_table_of_tree(root->left, table);
@@ -69,7 +83,7 @@ void check_vars(node* tree, symbol_table* table) {
         return;
     }
 
-    if (aux->type == NODE_ASIGN || aux->type == NODE_DECL) {
+    if (aux->type == NODE_ID_USE || aux->type == NODE_DECL) {
         union type* found = search_symbol(table, aux->info->ID.name);
 
         if (found == NULL) {

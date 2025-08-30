@@ -82,7 +82,7 @@ void printNode(node *root) {
         case NODE_DECL:
             printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
             break;
-        case NODE_ASIGN:
+        case NODE_ID_USE:
             printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
             break;
         case NODE_BOOL:
