@@ -16,15 +16,21 @@ int expr_solver(node* root, symbol_table* table) {
         case NODE_BOOL:
             return root->info->BOOL.value;
 
-        case NODE_ID: {
+        case NODE_ID: { // Esto puede ser que no sea necesario
             union type* var = search_symbol(table, root->info->ID.name);
             if (var->ID.type == TYPE_BOOL) {
-                return var->BOOL.value;
+                return var->ID.value.boolean;
             } else {
-                return var->NUM.value;
+                return var->ID.value.num;
             }
         }
-
+        case NODE_ASIGN:
+            union type* var = search_symbol(table, root->info->ID.name);
+            if (var->ID.type == TYPE_BOOL) {
+                return var->ID.value.boolean;
+            } else {
+                return var->ID.value.num;
+            }
         case NODE_OP: {
             int left_value  = expr_solver(root->left,  table);
             int right_value = expr_solver(root->right, table);
@@ -54,7 +60,8 @@ int expr_solver(node* root, symbol_table* table) {
             }
         }
         case NODE:
-            int right_value = expr_solver(root->right, table);
+            return expr_solver(root->left, table);
+            break;
 
         default:
             fprintf(stderr, "Error: no es expresión\n");
@@ -66,20 +73,15 @@ void execute_tree(node* root, symbol_table* table) {
     if (root == NULL) {
         return;
     }
-    switch (root->type) {
-        case NODE_OP: {
-            if (root->left != NULL && root->left->info != NULL) {
-                char* var_name = root->left->info->ID.name;
-                printf("El nodo es una operacion: %s\n", var_name);
-                int value = expr_solver(root->right, table);
-                
-                update_symbol_value(table, var_name, value);
-                printf("Asignación: %s = %d\n", var_name, value);
-            }
-            break;
+
+    if (root->type == NODE_OP && root->info->OP.name == asign) {
+        if (root->left != NULL && root->left->info != NULL) {
+            char* var_name = root->left->info->ID.name;
+            
+            int value = expr_solver(root->right, table);
+            
+            update_symbol_value(table, var_name, value);
         }
-        default:
-            break;
     }
     execute_tree(root->left, table);
     execute_tree(root->right, table);
@@ -93,11 +95,11 @@ void update_symbol_value(symbol_table* table, char* name, int value) {
     }
     switch (v->ID.type) {
         case TYPE_INT:
-            v->NUM.value = value;
+            v->ID.value.num = value;
             break;
 
         case TYPE_BOOL:
-            v->BOOL.value = (value != 0);
+            v->ID.value.boolean = (value != 0);
             break;
 
         default:

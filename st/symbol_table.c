@@ -26,6 +26,8 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
             printf("Symbol %s not found.\n", root->info->ID.name);
             exit(EXIT_FAILURE);   
         }
+        // Se actualiza la informacion del nodo con la info que esta en la tabla
+        root->info = s.info;
     }
 
     aux_create_symbol_table_of_tree(root->left, table);
@@ -63,25 +65,6 @@ void insert_symbol(symbol_table **table, symbol s){
     }
 }
 
-void check_vars(node* tree, symbol_table* table) {
-    node* aux = tree;
-    if (aux == NULL) {
-        return;
-    }
-
-    if (aux->type == NODE_ASIGN || aux->type == NODE_DECL) {
-        union type* found = search_symbol(table, aux->info->ID.name);
-
-        if (found == NULL) {
-            printf("Error: Variable %s no declarada\n", aux->info->ID.name);
-        }
-    }
-    
-    check_vars(aux->left, table);
-    check_vars(aux->right, table);
-}
-
-
 void print_symbol_table(symbol_table *table){
     if (table == NULL) {
         printf(" ");
@@ -93,19 +76,18 @@ void print_symbol_table(symbol_table *table){
         printf("ID:  %s\n", cursor->s.info->ID.name);
         switch(cursor->s.info->ID.type) {
             case TYPE_BOOL:
-                printf("TYPE: BOOL");
+                printf("TYPE: BOOL\n");
                 break;
             case TYPE_INT:
-                printf("TYPE: INT");
+                printf("TYPE: INT\n");
                 break;
         }
-        /*
+
         if (cursor->s.info->ID.type == TYPE_BOOL) {
             printf(cursor->s.info->ID.value.num == 1 ? "true" : "false");
         } else {
             printf("VALUE: %d", cursor->s.info->ID.value.num);
-        } 
-        */   
+        }   
         if (cursor->next != NULL) {
             printf("\n-----\n");
         }
