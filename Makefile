@@ -7,7 +7,7 @@ BISON = bison -v -d
 FLEX = flex
 
 SRC_DIRS = sintax lexer ast st semantic
-OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_chequer.o
+OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_chequer.o semantic/expr_solver.o
 
 TARGET = parser
 
@@ -40,6 +40,9 @@ st/symbol_table.o: st/symbol_table.c st/symbol_table.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 semantic/type_chequer.o: semantic/type_chequer.c semantic/type_chequer.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+semantic/expr_solver.o: semantic/expr_solver.c semantic/expr_solver.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Limpiar archivos generados

@@ -14,7 +14,7 @@ node* root;
     #include "tree.h"
     #include "symbol_table.h"
     #include "type_chequer.h"
-    #include "semantic/expr_solver.h"
+    #include "expr_solver.h"
     extern FILE *yyin;
 }
 
@@ -185,10 +185,10 @@ int main(int argc, char *argv[]) {
 
         print_symbol_table(table);
 
-        execute_tree(root, table);
+        //execute_tree(root, table);
 
-        print_symbol_table(table);
-        //check_types(root);
+        //print_symbol_table(table);
+        check_types(root);
 
     }
 
