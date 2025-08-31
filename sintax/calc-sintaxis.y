@@ -7,6 +7,7 @@
 int yylex(void);
 int yyerror(const char *s);
 node* root;
+VariableType current_return_type = NONE;
 
 %}
 
@@ -42,10 +43,17 @@ node* root;
 %%
 
 prog:
-    return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R 
+    return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R 
+    { // Se asigna el tipo de retorno a la variable global
+        current_return_type = $1;
+    }
+    TOKEN_LLAVE_L body TOKEN_LLAVE_R 
     {
         node* rt = createFuncNode($2, $1);
-        root = createNewTree(rt, $6, NULL);
+        root = createNewTree(rt, $7, NULL);
+        
+        // Se resetea el tipo de retorno después del parsing
+        current_return_type = NONE;
     }
     ;
 
@@ -74,7 +82,7 @@ sentencia: decl {
             $$ = $1;
         }
         | ret {
-            node* retNode = createRetNode(NONE);
+            node* retNode = createRetNode(current_return_type);
             $$ = createNewTree(retNode, $1, NULL);
         }
         ;
@@ -119,10 +127,19 @@ asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
      }
      ;
 
-ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA {
+ret: 
+    TOKEN_RETURN value TOKEN_PUNTO_Y_COMA {
+        if (current_return_type == NONE) {
+            yyerror("función 'void' no puede retornar un valor");
+            YYERROR;
+        }
         $$ = $2;
     }
     | TOKEN_RETURN TOKEN_PUNTO_Y_COMA {
+        if (current_return_type != NONE) {
+            yyerror("función debe retornar un valor");
+            YYERROR;
+        }
         $$ = NULL;
     }
     ;
