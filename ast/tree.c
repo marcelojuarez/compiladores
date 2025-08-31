@@ -33,23 +33,26 @@ node *createIdExpr(char *name, NodeType typeNode) {
     return root;
 }
 
-node *createOpNode(op name) {
+node *createOpNode(op name, VariableType type) {
     node *root = newNode(NODE_OP);
     root->info->OP.name = name;
+    root->info->OP.type = type;
 
     return root;
 }
 
-node* createTypeNode(VariableType type){
-    node* root = newNode(NODE_TYPE);
-    root->info->NODE_TYPE = type;
-
-    return root;
-}
-
-node *createNode(char *name) {
+node *createNode(char *name, VariableType type) {
     node *root = newNode(NODE);
-    root->info->NODE = name;
+    root->info->NODE.info = name;
+    root->info->NODE.type = type;
+
+    return root;
+}
+
+node* createFuncNode(char* name, VariableType returnType) {
+    node *root = newNode(NODE_FUNC);
+    root->info->FUNC.name = name;
+    root->info->FUNC.returnType = returnType;
 
     return root;
 }
@@ -68,6 +71,7 @@ node *createNewTree(node *root, node *left, node *right) {
     node *newRoot = root;
     newRoot->left = left;
     newRoot->right = right;
+
     return newRoot;
 }
 
@@ -79,23 +83,38 @@ void printNode(node *root) {
             printf("%d\n", root->info->NUM.value);
             break;
         case NODE_DECL:
+            switch(root->info->ID.type){
+                case TYPE_INT:
+                    printf("int ");
+                    break;
+                case TYPE_BOOL:
+                    printf("bool ");
+                    break;
+                case NONE:
+                    printf("none ");
+                    break;
+            }
             printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
             break;
-        case NODE_ASIGN:
+        case NODE_ID_USE:
             printf("%s\n", root->info->ID.name ? root->info->ID.name : "NULL");
             break;
         case NODE_BOOL:
             printf("%s\n", root->info->BOOL.value ? "true" : "false");
             break;
-        case NODE_TYPE:
-            switch(root->info->NODE_TYPE) {
+        case NODE_FUNC:
+            switch(root->info->FUNC.returnType) {
                 case TYPE_INT:
-                    printf("INT\n");
+                    printf("int ");
+                    printf("%s \n", root->info->FUNC.name);
                     break;
                 case TYPE_BOOL:
-                    printf("BOOL\n");
+                    printf("bool ");
+                    printf("%s \n", root->info->FUNC.name);
                     break; 
-                default:
+                case NONE:
+                    printf("void ");
+                    printf("%s \n", root->info->FUNC.name);
                     break;
             }
             break;
@@ -127,7 +146,7 @@ void printNode(node *root) {
             }
             break;
         case NODE:
-             printf("%s\n", root->info->NODE ? root->info->NODE : "NULL");
+             printf("%s\n", root->info->NODE.info ? root->info->NODE.info : "NULL");
             break;
         default:
             printf("UNKNOWN NODE\n");
