@@ -13,7 +13,7 @@ node* root;
 %code requires {
     #include "tree.h"
     #include "symbol_table.h"
-    #include "type_chequer.h"
+    #include "type_checker.h"
     #include "expr_solver.h"
     extern FILE *yyin;
 }
@@ -185,10 +185,12 @@ int main(int argc, char *argv[]) {
 
         print_symbol_table(table);
 
-        //execute_tree(root, table);
-
-        //print_symbol_table(table);
         check_types(root);
+
+        execute_tree(root, table);
+
+        print_symbol_table(table);
+        
 
     }
 

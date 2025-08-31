@@ -80,42 +80,44 @@ void print_symbol_table(symbol_table *table){
         return;
     }
     symbol_table *cursor = table;
-    printf("-----\n");
+    printf("\n----- INICIO TABLA DE SIMBOLOS -----\n");
     while(cursor != NULL){
         if (cursor->nodeType == NODE_DECL ||cursor->nodeType == NODE_ID_USE) {
             printf("ID:  %s\n", cursor->s.info->ID.name);
             switch(cursor->s.info->ID.type) {
                 case TYPE_BOOL:
-                    printf("TYPE: BOOL");
+                    printf("TYPE: BOOL\n");
+                    printf("VALUE: %d\n", cursor->s.info->ID.value.boolean);
                     break;
                 case TYPE_INT:
-                    printf("TYPE: INT");
+                    printf("TYPE: INT\n");
+                    printf("VALUE: %d\n", cursor->s.info->ID.value.num);
                     break;
                 case NONE:
-                    printf("TYPE: NONE");
+                    printf("TYPE: NONE\n");
                     break;
             }    
         } else {
             printf("FUNC:  %s\n", cursor->s.info->FUNC.name);
             switch(cursor->s.info->FUNC.returnType){
                 case TYPE_BOOL:
-                    printf("RETURN_TYPE: BOOL");
+                    printf("RETURN_TYPE: BOOL\n");
                     break;
                 case TYPE_INT:
-                    printf("RETURN_TYPE: INT");
+                    printf("RETURN_TYPE: INT\n");
                     break;
                 case NONE:
-                    printf("RETURN_TYPE: NONE");
+                    printf("RETURN_TYPE: NONE\n");
                     break;
             }       
         }
  
         if (cursor->next != NULL) {
-            printf("\n-----\n");
+            printf("-----\n");
         }
         cursor = cursor->next;
     }
-    printf("\n-----\n");
+    printf("\n----- FIN TABLA DE SIMBOLOS -----\n");
 }
 
 /*

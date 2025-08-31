@@ -4,8 +4,8 @@
 #include "symbol_table.h"
 
 
-VariableType check_exp_types(node* root){
-    if(root == NULL) {
+VariableType check_exp_types(node* root) {
+    if (root == NULL) {
         return NONE;
     }
 

@@ -35,43 +35,43 @@ union values{
 typedef struct infoInt{
     VariableType type;
     int value;
-}infoInt;  
+} infoInt;  
 
 typedef struct infoBool{
     VariableType type;
     int value;
-}infoBool; 
+} infoBool; 
 
 typedef struct infoId{
     char* name;
     VariableType type;
     union values value;
-}infoId;
+} infoId;
 
 typedef struct infoOp{
     op name;
     VariableType type;
     union values value;
-}infoOp;
+} infoOp;
 
 typedef struct infoNode{
     char* info;
     VariableType type; 
-}infoNode;
+} infoNode;
 
-typedef struct infoFun{
+typedef struct infoFun {
     char* name;
     VariableType returnType;
     union values value;
-}infoFun;
+} infoFun;
 
-typedef struct infoRet{
+typedef struct infoRet {
     VariableType returnType;
     union values value;
-}infoRet;
+} infoRet;
 
 /* Info que llevan los nodos */
-union type{
+union type {
     infoInt NUM;
     infoBool BOOL;
     infoId ID;
@@ -82,12 +82,12 @@ union type{
 };
 
 /*Estructura de los nodos del ast*/
-typedef struct node{
+typedef struct node {
     NodeType type;
     union type *info;
     struct node *left;
     struct node *right;
-}node;
+} node;
 
 
 /* Contructores de nodos */

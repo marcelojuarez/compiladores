@@ -7,7 +7,6 @@
 
 int expr_solver(node* root, symbol_table* table) {
     if (root == NULL) return 0;
-    printf("%d\n",root->type);
 
     switch (root->type) {
         case NODE_NUM:
@@ -16,15 +15,7 @@ int expr_solver(node* root, symbol_table* table) {
         case NODE_BOOL:
             return root->info->BOOL.value;
 
-        case NODE_ID: { // Esto puede ser que no sea necesario
-            union type* var = search_symbol(table, root->info->ID.name);
-            if (var->ID.type == TYPE_BOOL) {
-                return var->ID.value.boolean;
-            } else {
-                return var->ID.value.num;
-            }
-        }
-        case NODE_ASIGN:
+        case NODE_ID_USE:
             union type* var = search_symbol(table, root->info->ID.name);
             if (var->ID.type == TYPE_BOOL) {
                 return var->ID.value.boolean;
