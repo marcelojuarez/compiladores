@@ -5,6 +5,7 @@
 #include "../common.h"
 
 typedef enum{
+    NODE_FUNC,
     NODE_NUM,
     NODE_DECL,
     NODE_ID_USE,
@@ -56,12 +57,19 @@ typedef struct infoNode{
     VariableType type; 
 }infoNode;
 
+typedef struct infoFun{
+    char* name;
+    VariableType returnType;
+    union values value;
+}infoFun;
+
 union type{
     infoInt NUM;
     infoBool BOOL;
     infoId ID;
     infoOp OP;
     infoNode NODE;
+    infoFun FUNC;
     VariableType NODE_TYPE;
 };
 
@@ -77,8 +85,8 @@ node* createBoolNode(int value);
 node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode);
 node *createIdExpr(char *name, NodeType typeNode);
 node* createOpNode(op name, VariableType type);
-node* createTypeNode(VariableType type);
 node* createNode(char* name, VariableType type);
+node* createFuncNode(char* name, VariableType returnType);
 node* newNode(NodeType type);
 node* createNewTree(node* root, node* left, node* right);
 void printNode(node* root);

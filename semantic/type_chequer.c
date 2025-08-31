@@ -63,6 +63,8 @@ VariableType return_types(node* root){
                     printf("Error de tipos. Requiere tipo entero\n");
                     exit(EXIT_FAILURE); 
                 }
+
+                root->info->OP.type = leftType;
                 return leftType;
                 break;
 
@@ -72,9 +74,9 @@ VariableType return_types(node* root){
                     printf("Error de tipos. Tipos incompatible\n");
                     exit(EXIT_FAILURE); 
                 }
+                root->info->OP.type = leftType;
                 return leftType;
-                break;
-            
+                break;   
             case or:
             case and:
                 printf("Operacion booleana\n");
@@ -82,6 +84,7 @@ VariableType return_types(node* root){
                     printf("Error de tipos. Requiere tipo booleano\n");
                     exit(EXIT_FAILURE); 
                 }
+                root->info->OP.type = leftType;
                 return leftType;
                 break;
             default:
@@ -91,8 +94,8 @@ VariableType return_types(node* root){
         }
         
     }
-    printf("Llegue aca y retorno NONE \n");
-    return NONE;
+    printf("Error\n");
+    exit(EXIT_FAILURE); 
 }
 
 void check_types(node* root) {

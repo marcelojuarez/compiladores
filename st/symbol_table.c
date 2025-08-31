@@ -16,13 +16,13 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
     }
 
     symbol s; 
-    if (root->type == NODE_DECL) {
+    if (root->type == NODE_DECL || root->type == NODE_FUNC) {
 
         // Un nodo declaracion se agrega a la tabla de simbolos
 
         s.info = root->info;
-        printf("inserto %s en la tabla de simbolos con: %d \n", root->info->ID.name, root->info->ID.type);
-        insert_symbol(table, s);  
+        //printf("inserto %s en la tabla de simbolos con: %d \n", root->info->ID.name, root->info->ID.type);
+        insert_symbol(table, s, root->type);  
 
     } else if (root->type == NODE_ID_USE) {
 
@@ -34,7 +34,7 @@ void aux_create_symbol_table_of_tree(node* root, symbol_table** table) {
             printf("Symbol %s not found.\n", root->info->ID.name);
             exit(EXIT_FAILURE);   
         }
-        printf("Recupero %s de la tabla de simbolos con: %d \n", s.info->ID.name, s.info->ID.type);
+        //printf("Recupero %s de la tabla de simbolos con: %d \n", s.info->ID.name, s.info->ID.type);
 
         // Se actualiza la informacion del nodo con la info que esta en la tabla
 
@@ -60,10 +60,11 @@ union type* search_symbol(symbol_table *table, char* name){
     return NULL;
 }
 
-void insert_symbol(symbol_table **table, symbol s){
+void insert_symbol(symbol_table **table, symbol s, NodeType nodeType){
     if (search_symbol(*table, s.info->ID.name) == NULL){
         symbol_table *aux = malloc(sizeof(symbol_table));
         aux->s.info = s.info;
+        aux->nodeType = nodeType;
 
         if (*table == NULL) {
             *table = aux;
@@ -95,7 +96,6 @@ void check_vars(node* tree, symbol_table* table) {
     check_vars(aux->right, table);
 }
 
-
 void print_symbol_table(symbol_table *table){
     if (table == NULL) {
         printf(" ");
@@ -104,25 +104,34 @@ void print_symbol_table(symbol_table *table){
     symbol_table *cursor = table;
     printf("-----\n");
     while(cursor != NULL){
-        printf("ID:  %s\n", cursor->s.info->ID.name);
-        switch(cursor->s.info->ID.type) {
-            case TYPE_BOOL:
-                printf("TYPE: BOOL");
-                break;
-            case TYPE_INT:
-                printf("TYPE: INT");
-                break;
-            case NONE:
-                printf("TYPE: NONE");
-                break;
-        }
-        /*
-        if (cursor->s.info->ID.type == TYPE_BOOL) {
-            printf(cursor->s.info->ID.value.num == 1 ? "true" : "false");
+        if (cursor->nodeType == NODE_DECL ||cursor->nodeType == NODE_ID_USE) {
+            printf("ID:  %s\n", cursor->s.info->ID.name);
+            switch(cursor->s.info->ID.type) {
+                case TYPE_BOOL:
+                    printf("TYPE: BOOL");
+                    break;
+                case TYPE_INT:
+                    printf("TYPE: INT");
+                    break;
+                case NONE:
+                    printf("TYPE: NONE");
+                    break;
+            }    
         } else {
-            printf("VALUE: %d", cursor->s.info->ID.value.num);
-        } 
-        */   
+            printf("FUNC:  %s\n", cursor->s.info->FUNC.name);
+            switch(cursor->s.info->FUNC.returnType){
+                case TYPE_BOOL:
+                    printf("RETURN_TYPE: BOOL");
+                    break;
+                case TYPE_INT:
+                    printf("RETURN_TYPE: INT");
+                    break;
+                case NONE:
+                    printf("RETURN_TYPE: NONE");
+                    break;
+            }       
+        }
+ 
         if (cursor->next != NULL) {
             printf("\n-----\n");
         }

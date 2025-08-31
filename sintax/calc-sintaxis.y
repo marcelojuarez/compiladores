@@ -25,10 +25,10 @@ node* root;
     NodeType ntype;
 }
 
-%token TOKEN_VOID TOKEN_RETURN TOKEN_ASSIGN TOKEN_EQUALS TOKEN_CONST TOKEN_PUNTO_Y_COMA
+%token TOKEN_RETURN TOKEN_ASSIGN TOKEN_EQUALS TOKEN_CONST TOKEN_PUNTO_Y_COMA
 %token <sval> TOKEN_ID 
 %token <ival> TOKEN_NUM <ival> TOKEN_VAL_BOOL 
-%token TOKEN_BOOL TOKEN_INT 
+%token <vtype> TOKEN_BOOL TOKEN_INT TOKEN_VOID
 %token TOKEN_MAS TOKEN_MENOS TOKEN_MULT TOKEN_DIV TOKEN_OR TOKEN_AND
 %token TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L TOKEN_LLAVE_R 
     
@@ -36,25 +36,20 @@ node* root;
 %left TOKEN_MULT TOKEN_DIV
 %left TOKEN_AND TOKEN_OR
 
-%type <nd> return_type body sentencia sentencias decl asign ret cts var value expr 
-%type <vtype> type
+%type <nd> body sentencia sentencias decl asign ret cts var value expr 
+%type <vtype> type return_type
 %%
 
 prog:
     return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R 
     {
-
-        node* rt = createNode("program", NONE);
-        root = createNewTree(rt, $1, $6);
+        node* rt = createFuncNode($2, $1);
+        root = createNewTree(rt, $6, NULL);
     }
     ;
 
-return_type: TOKEN_VOID {
-                $$ = createNode("void", NONE);
-            }
-            | type {
-                $$ = createTypeNode($1);
-            }
+return_type: TOKEN_VOID { $$ = NONE; }
+            | type { $$ = $1; }
             ; 
 
 body: sentencias { 
@@ -97,22 +92,20 @@ decl: var{
 
 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA {
         node* idNode = createIdDecl($2, $1, NODE_DECL);
-        node* tyNode = createTypeNode($1);
-        $$ = createNewTree(tyNode, idNode, NULL);
+
+        $$ = createNewTree(idNode, NULL, NULL);
     }
     | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* idNode = createIdDecl($2, $1, NODE_DECL);
-        node* tyNode = createTypeNode($1);
         node* asignNode = createOpNode(asign, NONE);
-        node* subTreeAsign = createNewTree(asignNode, idNode, $4);
         
-        $$ = createNewTree(tyNode, subTreeAsign, NULL);
+        $$ = createNewTree(asignNode, idNode, $4);
     }
     ;
 
-cts: TOKEN_CONST type asign {
-        node* tyNode = createTypeNode($2);
-        $$ = createNewTree(tyNode, $3, NULL);
+cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
+        node* idNode = createIdDecl($3, $2, NODE_DECL);
+        $$ = createNewTree(idNode, $5, NULL);
    }
    ;
 
@@ -186,7 +179,7 @@ int main(int argc, char *argv[]) {
 
         symbol_table* table = create_symbol_table_of_tree(root);
         print_symbol_table(table);
-        check_types(root);
+        //check_types(root);
     }
 
     fclose(input_file);
