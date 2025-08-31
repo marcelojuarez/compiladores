@@ -68,12 +68,10 @@ sentencias:
           ;
 
 sentencia: decl {
-            node* declNode = createNode("decl", NONE);
-            $$ = createNewTree(declNode, $1, NULL);            
+            $$ = $1;            
         }
         | asign {
-            node* asignNode = createNode("asign", NONE);
-            $$ = createNewTree(asignNode, $1, NULL);
+            $$ = $1;
         }
         | ret {
             node* retNode = createRetNode(NONE);
@@ -132,8 +130,7 @@ ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA {
 value:
     expr 
     {   
-        node* node1 = createNode("expr", NONE);
-        $$ = createNewTree(node1, $1, NULL);     
+        $$ = $1;     
     }
     ;
 
@@ -185,7 +182,7 @@ int main(int argc, char *argv[]) {
 
         print_symbol_table(table);
 
-        check_types(root);
+        run_type_checker(root);
 
         execute_tree(root, table);
 

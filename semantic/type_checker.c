@@ -3,7 +3,9 @@
 #include "tree.h"
 #include "symbol_table.h"
 
-
+/**
+ * Realiza el chequeo de tipos de las distintas operaciones
+ */
 VariableType check_exp_types(node* root) {
     if (root == NULL) {
         return NONE;
@@ -12,27 +14,18 @@ VariableType check_exp_types(node* root) {
     if (root->left == NULL && root->right == NULL) {
         switch(root->type) {
             case NODE_NUM:
-                printf("simbolo %d: ", root->info->NUM.value);
-                printf("tipo:  %d \n", root->info->NUM.type);
                 return root->info->NUM.type;
                 break;
             case NODE_BOOL:
-                printf("simbolo %d: ", root->info->BOOL.value);
-                printf("tipo:  %d \n", root->info->BOOL.type);
                 return root->info->BOOL.type;
                 break;
             case NODE_ID_USE:
-                printf("simbolo %s: ", root->info->ID.name);
-                printf("tipo  %d \n", root->info->ID.type);
                 return root->info->ID.type;
                 break;
             case NODE_DECL:
-                printf("simbolo %s: ", root->info->ID.name);
-                printf("tipo  %d \n", root->info->ID.type);
                 return root->info->ID.type;
                 break;
             default:
-                printf("Entro por default \n");
                 break;
         }
     }
@@ -47,10 +40,8 @@ VariableType check_exp_types(node* root) {
 
     if (root->left != NULL && root->right != NULL) {
         
-        printf("Entro a ver los tipos \n");
         VariableType leftType = check_exp_types(root->left);
         VariableType rightType = check_exp_types(root->right);
-        printf("Salgo de ver los tipos \n");
 
         switch (root->info->OP.name) {
             
@@ -58,7 +49,7 @@ VariableType check_exp_types(node* root) {
             case resta:
             case divide:
             case mult:
-                printf("Operacion aritmetica\n");
+
                 if(leftType != TYPE_INT || rightType != TYPE_INT) {
                     printf("Error de tipos. Requiere tipo entero\n");
                     exit(EXIT_FAILURE); 
@@ -69,7 +60,7 @@ VariableType check_exp_types(node* root) {
                 break;
 
             case asign:
-                printf("Operacion de asignacion\n");
+
                 if(leftType != rightType) {
                     printf("Error de tipos. Tipos incompatible\n");
                     exit(EXIT_FAILURE); 
@@ -79,7 +70,7 @@ VariableType check_exp_types(node* root) {
                 break;   
             case or:
             case and:
-                printf("Operacion booleana\n");
+
                 if(leftType != TYPE_BOOL || rightType!= TYPE_BOOL) {
                     printf("Error de tipos. Requiere tipo booleano\n");
                     exit(EXIT_FAILURE); 
@@ -98,6 +89,10 @@ VariableType check_exp_types(node* root) {
     exit(EXIT_FAILURE); 
 }
 
+/** 
+ * Devuelve un string por cada valor del enumerado VariableType 
+ * Utilizado para mostrar resultados mas claros 
+ */
 char* VariableTypeToString(VariableType type){
     switch(type){
         case TYPE_INT:
@@ -125,12 +120,15 @@ void check_return_types(node* root, VariableType f_returnType){
             printf("return expr: %s\n", VariableTypeToString(retType));
             exit(EXIT_FAILURE);
         }
-        //printf("\n");
     } else {
         check_return_types(root->left, f_returnType);
         check_return_types(root->right, f_returnType);
     }
 }
+
+/**
+ * Funcion principal que se encarga de comenzar el cheque de tipos
+ */
 
 void check_types(node* root) {
     if (root == NULL) {
@@ -150,4 +148,24 @@ void check_types(node* root) {
         check_types(root->right);
     }    
     
+}
+
+/**
+ * Funcion de entrada para chequeo de tipos
+ */
+
+void run_type_checker(node* root) {
+
+    if (root == NULL) {
+        printf("Arbol vacío. No hay nada que chequear.\n");
+        return;
+    } 
+
+    printf("\n----- Iniciando chequeo de tipos ----- \n");
+
+    check_types(root);
+
+    printf("\nChequeo de tipos correcto \n");
+
+    printf("\n----- Fin del chequeo de tipos ----- \n");
 }
