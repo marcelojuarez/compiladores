@@ -76,7 +76,7 @@ sentencia: decl {
             $$ = createNewTree(asignNode, $1, NULL);
         }
         | ret {
-            node* retNode = createNode("ret", NONE);
+            node* retNode = createRetNode(NONE);
             $$ = createNewTree(retNode, $1, NULL);
         }
         ;
@@ -124,6 +124,9 @@ asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
 ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA {
         $$ = $2;
     }
+    | TOKEN_RETURN TOKEN_PUNTO_Y_COMA {
+        $$ = NULL;
+    }
     ;
 
 value:
@@ -138,30 +141,30 @@ expr: TOKEN_NUM {$$ = createIntNode($1);}
     | TOKEN_ID {$$ = createIdExpr($1, NODE_ID_USE); }
     | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | expr TOKEN_MAS expr {
-        node* op = createOpNode(suma, NONE);
+        node* op = createOpNode(suma, TYPE_INT);
         $$ = createNewTree(op, $1, $3);
     }
     | expr TOKEN_MENOS expr {
-        node* op = createOpNode(resta, NONE);
+        node* op = createOpNode(resta, TYPE_INT);
         $$ = createNewTree(op, $1, $3); 
     }
     | expr TOKEN_DIV expr {
-        node* op = createOpNode(divide, NONE);
+        node* op = createOpNode(divide, TYPE_INT);
         $$ = createNewTree(op, $1, $3);        
     }
     | expr TOKEN_MULT expr  {
-        node* op = createOpNode(mult, NONE);
+        node* op = createOpNode(mult, TYPE_INT);
         $$ = createNewTree(op, $1, $3);     
     }
     | TOKEN_PAREN_L expr TOKEN_PAREN_R  {
         $$ = $2;        
     }
     | expr TOKEN_AND expr {
-        node* op = createOpNode(and, NONE);
+        node* op = createOpNode(and, TYPE_BOOL);
         $$ = createNewTree(op, $1, $3);
     }
     | expr TOKEN_OR expr {
-        node* op = createOpNode(or, NONE);
+        node* op = createOpNode(or, TYPE_BOOL);
         $$ = createNewTree(op, $1, $3);
     }
     ;

@@ -1,13 +1,13 @@
 # Compilador
 CC = gcc
-CFLAGS = -Wall -g -I. -Iast -Ist -Isintax -Ilexer
+CFLAGS = -Wall -g -I. -Iast -Ist -Isintax -Ilexer -Isemantic
 
 # Archivos y carpetas
 BISON = bison -v -d
 FLEX = flex
 
-SRC_DIRS = sintax lexer ast st
-OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/expr_solver.o
+SRC_DIRS = sintax lexer ast st semantic
+OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_chequer.o
 
 TARGET = parser
 
@@ -37,6 +37,9 @@ ast/tree.o: ast/tree.c ast/tree.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 st/symbol_table.o: st/symbol_table.c st/symbol_table.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+semantic/type_chequer.o: semantic/type_chequer.c semantic/type_chequer.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Limpiar archivos generados

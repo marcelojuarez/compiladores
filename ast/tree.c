@@ -57,6 +57,13 @@ node* createFuncNode(char* name, VariableType returnType) {
     return root;
 }
 
+node* createRetNode(VariableType returnType) {
+    node *root = newNode(NODE_RET);
+    root->info->RET.returnType = returnType;
+
+    return root;
+}
+
 node *newNode(NodeType type) {
     node *root = malloc(sizeof(node));
     root->info = malloc(sizeof(union type));
@@ -147,6 +154,9 @@ void printNode(node *root) {
             break;
         case NODE:
              printf("%s\n", root->info->NODE.info ? root->info->NODE.info : "NULL");
+            break;
+        case NODE_RET:
+            printf("ret \n");
             break;
         default:
             printf("UNKNOWN NODE\n");
