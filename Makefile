@@ -7,7 +7,7 @@ BISON = bison -v -d
 FLEX = flex
 
 SRC_DIRS = sintax lexer ast st
-OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o
+OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/expr_solver.o
 
 TARGET = parser
 
