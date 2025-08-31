@@ -13,6 +13,7 @@ node* root;
 %code requires {
     #include "tree.h"
     #include "symbol_table.h"
+    #include "semantic/expr_solver.h"
     extern FILE *yyin;
 }
 
@@ -184,7 +185,13 @@ int main(int argc, char *argv[]) {
         printTree(root, 0);
 
         symbol_table* table = create_symbol_table_of_tree(root);
+
         print_symbol_table(table);
+
+        execute_tree(root, table);
+
+        print_symbol_table(table);
+
     }
 
     fclose(input_file);
