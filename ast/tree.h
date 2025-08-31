@@ -4,6 +4,7 @@
 
 #include "../common.h"
 
+/* Tipos de nodos del ast */
 typedef enum{
     NODE_FUNC,
     NODE_NUM,
@@ -11,10 +12,11 @@ typedef enum{
     NODE_ID_USE,
     NODE_OP,
     NODE_BOOL,
-    NODE_TYPE,
+    NODE_RET,
     NODE  
 }NodeType;
 
+/* Tipos de operaciones */
 typedef enum{
     suma,
     resta,
@@ -63,6 +65,12 @@ typedef struct infoFun{
     union values value;
 }infoFun;
 
+typedef struct infoRet{
+    VariableType returnType;
+    union values value;
+}infoRet;
+
+/* Info que llevan los nodos */
 union type{
     infoInt NUM;
     infoBool BOOL;
@@ -70,9 +78,10 @@ union type{
     infoOp OP;
     infoNode NODE;
     infoFun FUNC;
-    VariableType NODE_TYPE;
+    infoRet RET;
 };
 
+/*Estructura de los nodos del ast*/
 typedef struct node{
     NodeType type;
     union type *info;
@@ -80,6 +89,8 @@ typedef struct node{
     struct node *right;
 }node;
 
+
+/* Contructores de nodos */
 node* createIntNode(int value);
 node* createBoolNode(int value);
 node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode);
@@ -87,6 +98,7 @@ node *createIdExpr(char *name, NodeType typeNode);
 node* createOpNode(op name, VariableType type);
 node* createNode(char* name, VariableType type);
 node* createFuncNode(char* name, VariableType returnType);
+node* createRetNode(VariableType returnType);
 node* newNode(NodeType type);
 node* createNewTree(node* root, node* left, node* right);
 void printNode(node* root);

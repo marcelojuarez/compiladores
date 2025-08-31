@@ -4,7 +4,7 @@
 #include "symbol_table.h"
 
 
-VariableType return_types(node* root){
+VariableType check_exp_types(node* root){
     if(root == NULL) {
         return NONE;
     }
@@ -38,18 +38,18 @@ VariableType return_types(node* root){
     }
 
     if (root->left != NULL && root->right == NULL) {
-       return return_types(root->left);
+       return check_exp_types(root->left);
     }
 
     if (root->left == NULL && root->right != NULL) {
-        return return_types(root->right);
+        return check_exp_types(root->right);
     }
 
     if (root->left != NULL && root->right != NULL) {
         
         printf("Entro a ver los tipos \n");
-        VariableType leftType = return_types(root->left);
-        VariableType rightType = return_types(root->right);
+        VariableType leftType = check_exp_types(root->left);
+        VariableType rightType = check_exp_types(root->right);
         printf("Salgo de ver los tipos \n");
 
         switch (root->info->OP.name) {
@@ -98,18 +98,56 @@ VariableType return_types(node* root){
     exit(EXIT_FAILURE); 
 }
 
+char* VariableTypeToString(VariableType type){
+    switch(type){
+        case TYPE_INT:
+            return "INT";
+            break;
+        case TYPE_BOOL:
+            return "BOOL";
+            break; 
+        case NONE:
+            return "VOID";
+            break;
+    }
+}
+
+void check_return_types(node* root, VariableType f_returnType){
+    if (root == NULL ) {
+        return ;
+    }
+
+    if (root->type == NODE_RET) {
+        VariableType retType = check_exp_types(root);
+       if ( retType !=  f_returnType) {
+            printf("ERROR - tipo de retorno incompatible\n");
+            printf("%s f \n", VariableTypeToString(f_returnType));
+            printf("return expr: %s\n", VariableTypeToString(retType));
+            exit(EXIT_FAILURE);
+        }
+        //printf("\n");
+    } else {
+        check_return_types(root->left, f_returnType);
+        check_return_types(root->right, f_returnType);
+    }
+}
+
 void check_types(node* root) {
     if (root == NULL) {
         return;
     }
+
     if (root->type == NODE_FUNC) {
-        if (root->returnType != void) {
-            // Logica para buscar el retorno
+        if (root->info->FUNC.returnType != NONE) {
+           check_return_types(root, root->info->FUNC.returnType);
         }
-    } else if (root->type == NODE_OP) {
-        return_types(root);
+    } 
+    
+    if (root->type == NODE_OP) {
+        check_exp_types(root);
     } else {
         check_types(root->left);
         check_types(root->right);
-    }
+    }    
+    
 }
