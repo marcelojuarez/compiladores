@@ -102,11 +102,13 @@ void check_types(node* root) {
     if (root == NULL) {
         return;
     }
-
-    if (root->type == NODE_OP) {
+    if (root->type == NODE_FUNC) {
+        if (root->returnType != void) {
+            // Logica para buscar el retorno
+        }
+    } else if (root->type == NODE_OP) {
         return_types(root);
     } else {
-         //printf("No hay operaciones \n");
         check_types(root->left);
         check_types(root->right);
     }

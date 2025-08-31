@@ -105,15 +105,15 @@ void printNode(node *root) {
         case NODE_FUNC:
             switch(root->info->FUNC.returnType) {
                 case TYPE_INT:
-                    printf("INT\n");
+                    printf("int ");
                     printf("%s \n", root->info->FUNC.name);
                     break;
                 case TYPE_BOOL:
-                    printf("BOOL\n");
+                    printf("bool ");
                     printf("%s \n", root->info->FUNC.name);
                     break; 
                 case NONE:
-                    printf("NONE\n");
+                    printf("void ");
                     printf("%s \n", root->info->FUNC.name);
                     break;
             }
