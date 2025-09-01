@@ -45,10 +45,10 @@ VariableType check_exp_types(node* root) {
 
         switch (root->info->OP.name) {
             
-            case suma:
-            case resta:
-            case divide:
-            case mult:
+            case OP_ADD:
+            case OP_SUB:
+            case OP_DIV:
+            case OP_MULT:
 
                 if(leftType != TYPE_INT || rightType != TYPE_INT) {
                     printf("Error de tipos. Requiere tipo entero\n");
@@ -59,7 +59,7 @@ VariableType check_exp_types(node* root) {
                 return leftType;
                 break;
 
-            case asign:
+            case OP_ASSIGN:
 
                 if(leftType != rightType) {
                     printf("Error de tipos. Tipos incompatible\n");
@@ -68,8 +68,8 @@ VariableType check_exp_types(node* root) {
                 root->info->OP.type = leftType;
                 return leftType;
                 break;   
-            case or:
-            case and:
+            case OP_OR:
+            case OP_AND:
 
                 if(leftType != TYPE_BOOL || rightType!= TYPE_BOOL) {
                     printf("Error de tipos. Requiere tipo booleano\n");

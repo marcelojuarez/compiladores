@@ -7,7 +7,7 @@
 
 int expr_solver(node* root, symbol_table* table) {
     if (root == NULL) return 0;
-
+    printf("%d\n", root->type);
     switch (root->type) {
         case NODE_NUM:
             return root->info->NUM.value;
@@ -27,22 +27,22 @@ int expr_solver(node* root, symbol_table* table) {
             int right_value = expr_solver(root->right, table);
 
             switch (root->info->OP.name) {
-                case suma:   
+                case OP_ADD:   
                     return left_value + right_value;
-                case resta:  
+                case OP_SUB:  
                     return left_value - right_value;
-                case mult:   
+                case OP_MULT:   
                     return left_value * right_value;
-                case divide:
+                case OP_DIV:
                     if (right_value == 0) {
                         fprintf(stderr, "Math error: división por cero\n");
                         exit(1);
                     }
                     return left_value / right_value;
 
-                case and:    
+                case OP_AND:    
                     return left_value && right_value;
-                case or:     
+                case OP_OR:     
                     return left_value || right_value;
 
                 default:
@@ -54,6 +54,11 @@ int expr_solver(node* root, symbol_table* table) {
             return expr_solver(root->left, table);
             break;
 
+        case NODE_RET:
+            printf("CASO NODE RETURN\n");
+            int return_value = expr_solver(root->right, table);
+            printf("Funcion retornada con valor %d\n", return_value);
+            exit(EXIT_SUCCESS);
         default:
             fprintf(stderr, "Error: no es expresión\n");
             exit(1);
@@ -65,7 +70,7 @@ void execute_tree(node* root, symbol_table* table) {
         return;
     }
 
-    if (root->type == NODE_OP && root->info->OP.name == asign) {
+    if (root->type == NODE_OP && root->info->OP.name == OP_ASSIGN) {
         if (root->left != NULL && root->left->info != NULL) {
             char* var_name = root->left->info->ID.name;
             

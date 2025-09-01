@@ -18,13 +18,13 @@ typedef enum{
 
 /* Tipos de operaciones */
 typedef enum{
-    suma,
-    resta,
-    asign,
-    divide,
-    mult,
-    or,
-    and
+    OP_ADD,
+    OP_SUB, 
+    OP_ASSIGN,
+    OP_DIV,
+    OP_MULT,
+    OP_OR,
+    OP_AND
 } op;
 
 union values{

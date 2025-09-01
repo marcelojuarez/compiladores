@@ -127,25 +127,25 @@ void printNode(node *root) {
             break;
         case NODE_OP:
             switch (root->info->OP.name) {
-            case suma:
+            case OP_ADD:
                 printf("+\n");
                 break;
-            case resta:
+            case OP_SUB:
                 printf("-\n");
                 break;
-            case mult:
+            case OP_MULT:
                 printf("*\n");
                 break;
-            case divide:
+            case OP_DIV:
                 printf("/\n");
                 break;
-            case asign:
+            case OP_ASSIGN:
                 printf("=\n");
                 break;
-            case or:
+            case OP_OR:
                 printf("||\n");
                 break;
-            case and:
+            case OP_AND:
                 printf("&&\n");
                 break;
             default:

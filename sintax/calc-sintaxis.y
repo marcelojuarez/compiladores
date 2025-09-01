@@ -104,7 +104,7 @@ var: type TOKEN_ID TOKEN_PUNTO_Y_COMA {
     }
     | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
         node* idNode = createIdDecl($2, $1, NODE_DECL);
-        node* asignNode = createOpNode(asign, NONE);
+        node* asignNode = createOpNode(OP_ASSIGN, NONE);
         
         $$ = createNewTree(asignNode, idNode, $4);
     }
@@ -121,7 +121,7 @@ type: TOKEN_INT {$$ = TYPE_INT;}
     ;
 
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
-        node* asignNode = createOpNode(asign, NONE);
+        node* asignNode = createOpNode(OP_ASSIGN, NONE);
         node* idNode = createIdExpr($1, NODE_ID_USE);
         $$ = createNewTree(asignNode, idNode, $3);
      }
@@ -155,30 +155,30 @@ expr: TOKEN_NUM {$$ = createIntNode($1);}
     | TOKEN_ID {$$ = createIdExpr($1, NODE_ID_USE); }
     | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
     | expr TOKEN_MAS expr {
-        node* op = createOpNode(suma, TYPE_INT);
+        node* op = createOpNode(OP_ADD, TYPE_INT);
         $$ = createNewTree(op, $1, $3);
     }
     | expr TOKEN_MENOS expr {
-        node* op = createOpNode(resta, TYPE_INT);
+        node* op = createOpNode(OP_SUB, TYPE_INT);
         $$ = createNewTree(op, $1, $3); 
     }
     | expr TOKEN_DIV expr {
-        node* op = createOpNode(divide, TYPE_INT);
+        node* op = createOpNode(OP_DIV, TYPE_INT);
         $$ = createNewTree(op, $1, $3);        
     }
     | expr TOKEN_MULT expr  {
-        node* op = createOpNode(mult, TYPE_INT);
+        node* op = createOpNode(OP_MULT, TYPE_INT);
         $$ = createNewTree(op, $1, $3);     
     }
     | TOKEN_PAREN_L expr TOKEN_PAREN_R  {
         $$ = $2;        
     }
     | expr TOKEN_AND expr {
-        node* op = createOpNode(and, TYPE_BOOL);
+        node* op = createOpNode(OP_AND, TYPE_BOOL);
         $$ = createNewTree(op, $1, $3);
     }
     | expr TOKEN_OR expr {
-        node* op = createOpNode(or, TYPE_BOOL);
+        node* op = createOpNode(OP_OR, TYPE_BOOL);
         $$ = createNewTree(op, $1, $3);
     }
     ;

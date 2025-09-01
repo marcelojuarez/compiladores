@@ -7,75 +7,77 @@ Grammar
 
     0 $accept: prog $end
 
-    1 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R
+    1 $@1: ε
 
-    2 return_type: TOKEN_VOID
-    3            | type
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R $@1 TOKEN_LLAVE_L body TOKEN_LLAVE_R
 
-    4 body: sentencias
+    3 return_type: TOKEN_VOID
+    4            | type
 
-    5 sentencias: ε
-    6           | sentencia sentencias
+    5 body: sentencias
 
-    7 sentencia: decl
-    8          | asign
-    9          | ret
+    6 sentencias: ε
+    7           | sentencia sentencias
 
-   10 decl: var
-   11     | cts
+    8 sentencia: decl
+    9          | asign
+   10          | ret
 
-   12 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA
-   13    | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   11 decl: var
+   12     | cts
 
-   14 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   13 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA
+   14    | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-   15 type: TOKEN_INT
-   16     | TOKEN_BOOL
+   15 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-   17 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   16 type: TOKEN_INT
+   17     | TOKEN_BOOL
 
-   18 ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA
-   19    | TOKEN_RETURN TOKEN_PUNTO_Y_COMA
+   18 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-   20 value: expr
+   19 ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA
+   20    | TOKEN_RETURN TOKEN_PUNTO_Y_COMA
 
-   21 expr: TOKEN_NUM
-   22     | TOKEN_ID
-   23     | TOKEN_VAL_BOOL
-   24     | expr TOKEN_MAS expr
-   25     | expr TOKEN_MENOS expr
-   26     | expr TOKEN_DIV expr
-   27     | expr TOKEN_MULT expr
-   28     | TOKEN_PAREN_L expr TOKEN_PAREN_R
-   29     | expr TOKEN_AND expr
-   30     | expr TOKEN_OR expr
+   21 value: expr
+
+   22 expr: TOKEN_NUM
+   23     | TOKEN_ID
+   24     | TOKEN_VAL_BOOL
+   25     | expr TOKEN_MAS expr
+   26     | expr TOKEN_MENOS expr
+   27     | expr TOKEN_DIV expr
+   28     | expr TOKEN_MULT expr
+   29     | TOKEN_PAREN_L expr TOKEN_PAREN_R
+   30     | expr TOKEN_AND expr
+   31     | expr TOKEN_OR expr
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    TOKEN_RETURN (258) 18 19
-    TOKEN_ASSIGN (259) 13 14 17
+    TOKEN_RETURN (258) 19 20
+    TOKEN_ASSIGN (259) 14 15 18
     TOKEN_EQUALS (260)
-    TOKEN_CONST (261) 14
-    TOKEN_PUNTO_Y_COMA (262) 12 13 14 17 18 19
-    TOKEN_ID <sval> (263) 1 12 13 14 17 22
-    TOKEN_NUM <ival> (264) 21
-    TOKEN_VAL_BOOL <ival> (265) 23
-    TOKEN_BOOL <vtype> (266) 16
-    TOKEN_INT <vtype> (267) 15
-    TOKEN_VOID <vtype> (268) 2
-    TOKEN_MAS (269) 24
-    TOKEN_MENOS (270) 25
-    TOKEN_MULT (271) 27
-    TOKEN_DIV (272) 26
-    TOKEN_OR (273) 30
-    TOKEN_AND (274) 29
-    TOKEN_PAREN_L (275) 1 28
-    TOKEN_PAREN_R (276) 1 28
-    TOKEN_LLAVE_L (277) 1
-    TOKEN_LLAVE_R (278) 1
+    TOKEN_CONST (261) 15
+    TOKEN_PUNTO_Y_COMA (262) 13 14 15 18 19 20
+    TOKEN_ID <sval> (263) 2 13 14 15 18 23
+    TOKEN_NUM <ival> (264) 22
+    TOKEN_VAL_BOOL <ival> (265) 24
+    TOKEN_BOOL <vtype> (266) 17
+    TOKEN_INT <vtype> (267) 16
+    TOKEN_VOID <vtype> (268) 3
+    TOKEN_MAS (269) 25
+    TOKEN_MENOS (270) 26
+    TOKEN_MULT (271) 28
+    TOKEN_DIV (272) 27
+    TOKEN_OR (273) 31
+    TOKEN_AND (274) 30
+    TOKEN_PAREN_L (275) 2 29
+    TOKEN_PAREN_R (276) 2 29
+    TOKEN_LLAVE_L (277) 2
+    TOKEN_LLAVE_R (278) 2
 
 
 Nonterminals, with rules where they appear
@@ -83,44 +85,47 @@ Nonterminals, with rules where they appear
     $accept (24)
         on left: 0
     prog (25)
-        on left: 1
+        on left: 2
         on right: 0
-    return_type <vtype> (26)
-        on left: 2 3
-        on right: 1
-    body <nd> (27)
-        on left: 4
-        on right: 1
-    sentencias <nd> (28)
-        on left: 5 6
-        on right: 4 6
-    sentencia <nd> (29)
-        on left: 7 8 9
-        on right: 6
-    decl <nd> (30)
-        on left: 10 11
+    $@1 (26)
+        on left: 1
+        on right: 2
+    return_type <vtype> (27)
+        on left: 3 4
+        on right: 2
+    body <nd> (28)
+        on left: 5
+        on right: 2
+    sentencias <nd> (29)
+        on left: 6 7
+        on right: 5 7
+    sentencia <nd> (30)
+        on left: 8 9 10
         on right: 7
-    var <nd> (31)
-        on left: 12 13
-        on right: 10
-    cts <nd> (32)
-        on left: 14
-        on right: 11
-    type <vtype> (33)
-        on left: 15 16
-        on right: 3 12 13 14
-    asign <nd> (34)
-        on left: 17
+    decl <nd> (31)
+        on left: 11 12
         on right: 8
-    ret <nd> (35)
-        on left: 18 19
+    var <nd> (32)
+        on left: 13 14
+        on right: 11
+    cts <nd> (33)
+        on left: 15
+        on right: 12
+    type <vtype> (34)
+        on left: 16 17
+        on right: 4 13 14 15
+    asign <nd> (35)
+        on left: 18
         on right: 9
-    value <nd> (36)
-        on left: 20
-        on right: 13 14 17 18
-    expr <nd> (37)
-        on left: 21 22 23 24 25 26 27 28 29 30
-        on right: 20 24 25 26 27 28 29 30
+    ret <nd> (36)
+        on left: 19 20
+        on right: 10
+    value <nd> (37)
+        on left: 21
+        on right: 14 15 18 19
+    expr <nd> (38)
+        on left: 22 23 24 25 26 27 28 29 30 31
+        on right: 21 25 26 27 28 29 30 31
 
 
 State 0
@@ -138,23 +143,23 @@ State 0
 
 State 1
 
-   16 type: TOKEN_BOOL •
+   17 type: TOKEN_BOOL •
 
-    $default  reduce using rule 16 (type)
+    $default  reduce using rule 17 (type)
 
 
 State 2
 
-   15 type: TOKEN_INT •
+   16 type: TOKEN_INT •
 
-    $default  reduce using rule 15 (type)
+    $default  reduce using rule 16 (type)
 
 
 State 3
 
-    2 return_type: TOKEN_VOID •
+    3 return_type: TOKEN_VOID •
 
-    $default  reduce using rule 2 (return_type)
+    $default  reduce using rule 3 (return_type)
 
 
 State 4
@@ -166,16 +171,16 @@ State 4
 
 State 5
 
-    1 prog: return_type • TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R
+    2 prog: return_type • TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R $@1 TOKEN_LLAVE_L body TOKEN_LLAVE_R
 
     TOKEN_ID  shift, and go to state 8
 
 
 State 6
 
-    3 return_type: type •
+    4 return_type: type •
 
-    $default  reduce using rule 3 (return_type)
+    $default  reduce using rule 4 (return_type)
 
 
 State 7
@@ -187,545 +192,554 @@ State 7
 
 State 8
 
-    1 prog: return_type TOKEN_ID • TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R
+    2 prog: return_type TOKEN_ID • TOKEN_PAREN_L TOKEN_PAREN_R $@1 TOKEN_LLAVE_L body TOKEN_LLAVE_R
 
     TOKEN_PAREN_L  shift, and go to state 9
 
 
 State 9
 
-    1 prog: return_type TOKEN_ID TOKEN_PAREN_L • TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L • TOKEN_PAREN_R $@1 TOKEN_LLAVE_L body TOKEN_LLAVE_R
 
     TOKEN_PAREN_R  shift, and go to state 10
 
 
 State 10
 
-    1 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R • TOKEN_LLAVE_L body TOKEN_LLAVE_R
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R • $@1 TOKEN_LLAVE_L body TOKEN_LLAVE_R
 
-    TOKEN_LLAVE_L  shift, and go to state 11
+    $default  reduce using rule 1 ($@1)
+
+    $@1  go to state 11
 
 
 State 11
 
-    1 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L • body TOKEN_LLAVE_R
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R $@1 • TOKEN_LLAVE_L body TOKEN_LLAVE_R
 
-    TOKEN_RETURN  shift, and go to state 12
-    TOKEN_CONST   shift, and go to state 13
-    TOKEN_ID      shift, and go to state 14
-    TOKEN_BOOL    shift, and go to state 1
-    TOKEN_INT     shift, and go to state 2
-
-    $default  reduce using rule 5 (sentencias)
-
-    body        go to state 15
-    sentencias  go to state 16
-    sentencia   go to state 17
-    decl        go to state 18
-    var         go to state 19
-    cts         go to state 20
-    type        go to state 21
-    asign       go to state 22
-    ret         go to state 23
+    TOKEN_LLAVE_L  shift, and go to state 12
 
 
 State 12
 
-   18 ret: TOKEN_RETURN • value TOKEN_PUNTO_Y_COMA
-   19    | TOKEN_RETURN • TOKEN_PUNTO_Y_COMA
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R $@1 TOKEN_LLAVE_L • body TOKEN_LLAVE_R
 
-    TOKEN_PUNTO_Y_COMA  shift, and go to state 24
-    TOKEN_ID            shift, and go to state 25
-    TOKEN_NUM           shift, and go to state 26
-    TOKEN_VAL_BOOL      shift, and go to state 27
-    TOKEN_PAREN_L       shift, and go to state 28
+    TOKEN_RETURN  shift, and go to state 13
+    TOKEN_CONST   shift, and go to state 14
+    TOKEN_ID      shift, and go to state 15
+    TOKEN_BOOL    shift, and go to state 1
+    TOKEN_INT     shift, and go to state 2
 
-    value  go to state 29
-    expr   go to state 30
+    $default  reduce using rule 6 (sentencias)
+
+    body        go to state 16
+    sentencias  go to state 17
+    sentencia   go to state 18
+    decl        go to state 19
+    var         go to state 20
+    cts         go to state 21
+    type        go to state 22
+    asign       go to state 23
+    ret         go to state 24
 
 
 State 13
 
-   14 cts: TOKEN_CONST • type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   19 ret: TOKEN_RETURN • value TOKEN_PUNTO_Y_COMA
+   20    | TOKEN_RETURN • TOKEN_PUNTO_Y_COMA
 
-    TOKEN_BOOL  shift, and go to state 1
-    TOKEN_INT   shift, and go to state 2
+    TOKEN_PUNTO_Y_COMA  shift, and go to state 25
+    TOKEN_ID            shift, and go to state 26
+    TOKEN_NUM           shift, and go to state 27
+    TOKEN_VAL_BOOL      shift, and go to state 28
+    TOKEN_PAREN_L       shift, and go to state 29
 
-    type  go to state 31
+    value  go to state 30
+    expr   go to state 31
 
 
 State 14
 
-   17 asign: TOKEN_ID • TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   15 cts: TOKEN_CONST • type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-    TOKEN_ASSIGN  shift, and go to state 32
+    TOKEN_BOOL  shift, and go to state 1
+    TOKEN_INT   shift, and go to state 2
+
+    type  go to state 32
 
 
 State 15
 
-    1 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body • TOKEN_LLAVE_R
+   18 asign: TOKEN_ID • TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-    TOKEN_LLAVE_R  shift, and go to state 33
+    TOKEN_ASSIGN  shift, and go to state 33
 
 
 State 16
 
-    4 body: sentencias •
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R $@1 TOKEN_LLAVE_L body • TOKEN_LLAVE_R
 
-    $default  reduce using rule 4 (body)
+    TOKEN_LLAVE_R  shift, and go to state 34
 
 
 State 17
 
-    6 sentencias: sentencia • sentencias
+    5 body: sentencias •
 
-    TOKEN_RETURN  shift, and go to state 12
-    TOKEN_CONST   shift, and go to state 13
-    TOKEN_ID      shift, and go to state 14
-    TOKEN_BOOL    shift, and go to state 1
-    TOKEN_INT     shift, and go to state 2
-
-    $default  reduce using rule 5 (sentencias)
-
-    sentencias  go to state 34
-    sentencia   go to state 17
-    decl        go to state 18
-    var         go to state 19
-    cts         go to state 20
-    type        go to state 21
-    asign       go to state 22
-    ret         go to state 23
+    $default  reduce using rule 5 (body)
 
 
 State 18
 
-    7 sentencia: decl •
+    7 sentencias: sentencia • sentencias
 
-    $default  reduce using rule 7 (sentencia)
+    TOKEN_RETURN  shift, and go to state 13
+    TOKEN_CONST   shift, and go to state 14
+    TOKEN_ID      shift, and go to state 15
+    TOKEN_BOOL    shift, and go to state 1
+    TOKEN_INT     shift, and go to state 2
+
+    $default  reduce using rule 6 (sentencias)
+
+    sentencias  go to state 35
+    sentencia   go to state 18
+    decl        go to state 19
+    var         go to state 20
+    cts         go to state 21
+    type        go to state 22
+    asign       go to state 23
+    ret         go to state 24
 
 
 State 19
 
-   10 decl: var •
+    8 sentencia: decl •
 
-    $default  reduce using rule 10 (decl)
+    $default  reduce using rule 8 (sentencia)
 
 
 State 20
 
-   11 decl: cts •
+   11 decl: var •
 
     $default  reduce using rule 11 (decl)
 
 
 State 21
 
-   12 var: type • TOKEN_ID TOKEN_PUNTO_Y_COMA
-   13    | type • TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   12 decl: cts •
 
-    TOKEN_ID  shift, and go to state 35
+    $default  reduce using rule 12 (decl)
 
 
 State 22
 
-    8 sentencia: asign •
+   13 var: type • TOKEN_ID TOKEN_PUNTO_Y_COMA
+   14    | type • TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-    $default  reduce using rule 8 (sentencia)
+    TOKEN_ID  shift, and go to state 36
 
 
 State 23
 
-    9 sentencia: ret •
+    9 sentencia: asign •
 
     $default  reduce using rule 9 (sentencia)
 
 
 State 24
 
-   19 ret: TOKEN_RETURN TOKEN_PUNTO_Y_COMA •
+   10 sentencia: ret •
 
-    $default  reduce using rule 19 (ret)
+    $default  reduce using rule 10 (sentencia)
 
 
 State 25
 
-   22 expr: TOKEN_ID •
+   20 ret: TOKEN_RETURN TOKEN_PUNTO_Y_COMA •
 
-    $default  reduce using rule 22 (expr)
+    $default  reduce using rule 20 (ret)
 
 
 State 26
 
-   21 expr: TOKEN_NUM •
-
-    $default  reduce using rule 21 (expr)
-
-
-State 27
-
-   23 expr: TOKEN_VAL_BOOL •
+   23 expr: TOKEN_ID •
 
     $default  reduce using rule 23 (expr)
 
 
+State 27
+
+   22 expr: TOKEN_NUM •
+
+    $default  reduce using rule 22 (expr)
+
+
 State 28
 
-   28 expr: TOKEN_PAREN_L • expr TOKEN_PAREN_R
+   24 expr: TOKEN_VAL_BOOL •
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
-
-    expr  go to state 36
+    $default  reduce using rule 24 (expr)
 
 
 State 29
 
-   18 ret: TOKEN_RETURN value • TOKEN_PUNTO_Y_COMA
+   29 expr: TOKEN_PAREN_L • expr TOKEN_PAREN_R
 
-    TOKEN_PUNTO_Y_COMA  shift, and go to state 37
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
+
+    expr  go to state 37
 
 
 State 30
 
-   20 value: expr •
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
+   19 ret: TOKEN_RETURN value • TOKEN_PUNTO_Y_COMA
 
-    TOKEN_MAS    shift, and go to state 38
-    TOKEN_MENOS  shift, and go to state 39
-    TOKEN_MULT   shift, and go to state 40
-    TOKEN_DIV    shift, and go to state 41
-    TOKEN_OR     shift, and go to state 42
-    TOKEN_AND    shift, and go to state 43
-
-    $default  reduce using rule 20 (value)
+    TOKEN_PUNTO_Y_COMA  shift, and go to state 38
 
 
 State 31
 
-   14 cts: TOKEN_CONST type • TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   21 value: expr •
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
 
-    TOKEN_ID  shift, and go to state 44
+    TOKEN_MAS    shift, and go to state 39
+    TOKEN_MENOS  shift, and go to state 40
+    TOKEN_MULT   shift, and go to state 41
+    TOKEN_DIV    shift, and go to state 42
+    TOKEN_OR     shift, and go to state 43
+    TOKEN_AND    shift, and go to state 44
+
+    $default  reduce using rule 21 (value)
 
 
 State 32
 
-   17 asign: TOKEN_ID TOKEN_ASSIGN • value TOKEN_PUNTO_Y_COMA
+   15 cts: TOKEN_CONST type • TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
-
-    value  go to state 45
-    expr   go to state 30
+    TOKEN_ID  shift, and go to state 45
 
 
 State 33
 
-    1 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R TOKEN_LLAVE_L body TOKEN_LLAVE_R •
+   18 asign: TOKEN_ID TOKEN_ASSIGN • value TOKEN_PUNTO_Y_COMA
 
-    $default  reduce using rule 1 (prog)
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
+
+    value  go to state 46
+    expr   go to state 31
 
 
 State 34
 
-    6 sentencias: sentencia sentencias •
+    2 prog: return_type TOKEN_ID TOKEN_PAREN_L TOKEN_PAREN_R $@1 TOKEN_LLAVE_L body TOKEN_LLAVE_R •
 
-    $default  reduce using rule 6 (sentencias)
+    $default  reduce using rule 2 (prog)
 
 
 State 35
 
-   12 var: type TOKEN_ID • TOKEN_PUNTO_Y_COMA
-   13    | type TOKEN_ID • TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+    7 sentencias: sentencia sentencias •
 
-    TOKEN_ASSIGN        shift, and go to state 46
-    TOKEN_PUNTO_Y_COMA  shift, and go to state 47
+    $default  reduce using rule 7 (sentencias)
 
 
 State 36
 
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   28     | TOKEN_PAREN_L expr • TOKEN_PAREN_R
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
+   13 var: type TOKEN_ID • TOKEN_PUNTO_Y_COMA
+   14    | type TOKEN_ID • TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-    TOKEN_MAS      shift, and go to state 38
-    TOKEN_MENOS    shift, and go to state 39
-    TOKEN_MULT     shift, and go to state 40
-    TOKEN_DIV      shift, and go to state 41
-    TOKEN_OR       shift, and go to state 42
-    TOKEN_AND      shift, and go to state 43
-    TOKEN_PAREN_R  shift, and go to state 48
+    TOKEN_ASSIGN        shift, and go to state 47
+    TOKEN_PUNTO_Y_COMA  shift, and go to state 48
 
 
 State 37
 
-   18 ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA •
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   29     | TOKEN_PAREN_L expr • TOKEN_PAREN_R
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
 
-    $default  reduce using rule 18 (ret)
+    TOKEN_MAS      shift, and go to state 39
+    TOKEN_MENOS    shift, and go to state 40
+    TOKEN_MULT     shift, and go to state 41
+    TOKEN_DIV      shift, and go to state 42
+    TOKEN_OR       shift, and go to state 43
+    TOKEN_AND      shift, and go to state 44
+    TOKEN_PAREN_R  shift, and go to state 49
 
 
 State 38
 
-   24 expr: expr TOKEN_MAS • expr
+   19 ret: TOKEN_RETURN value TOKEN_PUNTO_Y_COMA •
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
-
-    expr  go to state 49
+    $default  reduce using rule 19 (ret)
 
 
 State 39
 
-   25 expr: expr TOKEN_MENOS • expr
+   25 expr: expr TOKEN_MAS • expr
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
 
     expr  go to state 50
 
 
 State 40
 
-   27 expr: expr TOKEN_MULT • expr
+   26 expr: expr TOKEN_MENOS • expr
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
 
     expr  go to state 51
 
 
 State 41
 
-   26 expr: expr TOKEN_DIV • expr
+   28 expr: expr TOKEN_MULT • expr
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
 
     expr  go to state 52
 
 
 State 42
 
-   30 expr: expr TOKEN_OR • expr
+   27 expr: expr TOKEN_DIV • expr
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
 
     expr  go to state 53
 
 
 State 43
 
-   29 expr: expr TOKEN_AND • expr
+   31 expr: expr TOKEN_OR • expr
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
 
     expr  go to state 54
 
 
 State 44
 
-   14 cts: TOKEN_CONST type TOKEN_ID • TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
+   30 expr: expr TOKEN_AND • expr
 
-    TOKEN_ASSIGN  shift, and go to state 55
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
+
+    expr  go to state 55
 
 
 State 45
 
-   17 asign: TOKEN_ID TOKEN_ASSIGN value • TOKEN_PUNTO_Y_COMA
+   15 cts: TOKEN_CONST type TOKEN_ID • TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA
 
-    TOKEN_PUNTO_Y_COMA  shift, and go to state 56
+    TOKEN_ASSIGN  shift, and go to state 56
 
 
 State 46
 
-   13 var: type TOKEN_ID TOKEN_ASSIGN • value TOKEN_PUNTO_Y_COMA
+   18 asign: TOKEN_ID TOKEN_ASSIGN value • TOKEN_PUNTO_Y_COMA
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
-
-    value  go to state 57
-    expr   go to state 30
+    TOKEN_PUNTO_Y_COMA  shift, and go to state 57
 
 
 State 47
 
-   12 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA •
+   14 var: type TOKEN_ID TOKEN_ASSIGN • value TOKEN_PUNTO_Y_COMA
 
-    $default  reduce using rule 12 (var)
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
+
+    value  go to state 58
+    expr   go to state 31
 
 
 State 48
 
-   28 expr: TOKEN_PAREN_L expr TOKEN_PAREN_R •
+   13 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA •
 
-    $default  reduce using rule 28 (expr)
+    $default  reduce using rule 13 (var)
 
 
 State 49
 
-   24 expr: expr • TOKEN_MAS expr
-   24     | expr TOKEN_MAS expr •
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
+   29 expr: TOKEN_PAREN_L expr TOKEN_PAREN_R •
 
-    TOKEN_MULT  shift, and go to state 40
-    TOKEN_DIV   shift, and go to state 41
-    TOKEN_OR    shift, and go to state 42
-    TOKEN_AND   shift, and go to state 43
-
-    $default  reduce using rule 24 (expr)
+    $default  reduce using rule 29 (expr)
 
 
 State 50
 
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   25     | expr TOKEN_MENOS expr •
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
+   25 expr: expr • TOKEN_MAS expr
+   25     | expr TOKEN_MAS expr •
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
 
-    TOKEN_MULT  shift, and go to state 40
-    TOKEN_DIV   shift, and go to state 41
-    TOKEN_OR    shift, and go to state 42
-    TOKEN_AND   shift, and go to state 43
+    TOKEN_MULT  shift, and go to state 41
+    TOKEN_DIV   shift, and go to state 42
+    TOKEN_OR    shift, and go to state 43
+    TOKEN_AND   shift, and go to state 44
 
     $default  reduce using rule 25 (expr)
 
 
 State 51
 
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   27     | expr TOKEN_MULT expr •
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   26     | expr TOKEN_MENOS expr •
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
 
-    TOKEN_OR   shift, and go to state 42
-    TOKEN_AND  shift, and go to state 43
-
-    $default  reduce using rule 27 (expr)
-
-
-State 52
-
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   26     | expr TOKEN_DIV expr •
-   27     | expr • TOKEN_MULT expr
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
-
-    TOKEN_OR   shift, and go to state 42
-    TOKEN_AND  shift, and go to state 43
+    TOKEN_MULT  shift, and go to state 41
+    TOKEN_DIV   shift, and go to state 42
+    TOKEN_OR    shift, and go to state 43
+    TOKEN_AND   shift, and go to state 44
 
     $default  reduce using rule 26 (expr)
 
 
+State 52
+
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   28     | expr TOKEN_MULT expr •
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
+
+    TOKEN_OR   shift, and go to state 43
+    TOKEN_AND  shift, and go to state 44
+
+    $default  reduce using rule 28 (expr)
+
+
 State 53
 
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   29     | expr • TOKEN_AND expr
-   30     | expr • TOKEN_OR expr
-   30     | expr TOKEN_OR expr •
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   27     | expr TOKEN_DIV expr •
+   28     | expr • TOKEN_MULT expr
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
 
-    $default  reduce using rule 30 (expr)
+    TOKEN_OR   shift, and go to state 43
+    TOKEN_AND  shift, and go to state 44
+
+    $default  reduce using rule 27 (expr)
 
 
 State 54
 
-   24 expr: expr • TOKEN_MAS expr
-   25     | expr • TOKEN_MENOS expr
-   26     | expr • TOKEN_DIV expr
-   27     | expr • TOKEN_MULT expr
-   29     | expr • TOKEN_AND expr
-   29     | expr TOKEN_AND expr •
-   30     | expr • TOKEN_OR expr
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   30     | expr • TOKEN_AND expr
+   31     | expr • TOKEN_OR expr
+   31     | expr TOKEN_OR expr •
 
-    $default  reduce using rule 29 (expr)
+    $default  reduce using rule 31 (expr)
 
 
 State 55
 
-   14 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN • value TOKEN_PUNTO_Y_COMA
+   25 expr: expr • TOKEN_MAS expr
+   26     | expr • TOKEN_MENOS expr
+   27     | expr • TOKEN_DIV expr
+   28     | expr • TOKEN_MULT expr
+   30     | expr • TOKEN_AND expr
+   30     | expr TOKEN_AND expr •
+   31     | expr • TOKEN_OR expr
 
-    TOKEN_ID        shift, and go to state 25
-    TOKEN_NUM       shift, and go to state 26
-    TOKEN_VAL_BOOL  shift, and go to state 27
-    TOKEN_PAREN_L   shift, and go to state 28
-
-    value  go to state 58
-    expr   go to state 30
+    $default  reduce using rule 30 (expr)
 
 
 State 56
 
-   17 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA •
+   15 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN • value TOKEN_PUNTO_Y_COMA
 
-    $default  reduce using rule 17 (asign)
+    TOKEN_ID        shift, and go to state 26
+    TOKEN_NUM       shift, and go to state 27
+    TOKEN_VAL_BOOL  shift, and go to state 28
+    TOKEN_PAREN_L   shift, and go to state 29
+
+    value  go to state 59
+    expr   go to state 31
 
 
 State 57
 
-   13 var: type TOKEN_ID TOKEN_ASSIGN value • TOKEN_PUNTO_Y_COMA
+   18 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA •
 
-    TOKEN_PUNTO_Y_COMA  shift, and go to state 59
+    $default  reduce using rule 18 (asign)
 
 
 State 58
 
-   14 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value • TOKEN_PUNTO_Y_COMA
+   14 var: type TOKEN_ID TOKEN_ASSIGN value • TOKEN_PUNTO_Y_COMA
 
     TOKEN_PUNTO_Y_COMA  shift, and go to state 60
 
 
 State 59
 
-   13 var: type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA •
+   15 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value • TOKEN_PUNTO_Y_COMA
 
-    $default  reduce using rule 13 (var)
+    TOKEN_PUNTO_Y_COMA  shift, and go to state 61
 
 
 State 60
 
-   14 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA •
+   14 var: type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA •
 
-    $default  reduce using rule 14 (cts)
+    $default  reduce using rule 14 (var)
+
+
+State 61
+
+   15 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA •
+
+    $default  reduce using rule 15 (cts)
