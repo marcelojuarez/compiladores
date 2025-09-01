@@ -16,6 +16,7 @@ VariableType current_return_type = NONE;
     #include "symbol_table.h"
     #include "type_checker.h"
     #include "expr_solver.h"
+    #include "assembly_generator.h"
     extern FILE *yyin;
 }
 
@@ -199,6 +200,7 @@ int main(int argc, char *argv[]) {
         run_type_checker(root);
         execute_tree(root, table);
         print_symbol_table(table);
+        generate_assembly(root); 
     }
 
     fclose(input_file);

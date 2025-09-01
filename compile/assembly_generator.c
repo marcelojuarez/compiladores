@@ -30,20 +30,29 @@ void write_assembly(node* root, FILE* f) {
 
         case NODE_OP:
             if (root->info->OP.name == OP_ASSIGN) {
-                char* var_name = root->left->info->ID.name;
-                gen_expr(root->right, f);
-                fprintf(f, "    STORE %s\n", var_name);
+                if (root->left->type == NODE_DECL) {
+                    char* var_name = root->left->info->ID.name;
+                    fprintf(f, "    DECL %s\n", var_name);
+                    gen_expr(root->right, f);
+                    fprintf(f, "    STORE %s\n", var_name);
+                }else {
+                    char* var_name = root->left->info->ID.name;
+                    gen_expr(root->right, f);
+                    fprintf(f, "    STORE %s\n", var_name);
+                }
             }
             break;
-
+        case NODE_RET: {
+            gen_expr(root->left, f);
+            fprintf(f, "    RET\n");
+            break;
+        }
         default:
+            write_assembly(root->left, f);
+            write_assembly(root->right, f);
             break;
     }
-
-    write_assembly(root->left, f);
-    write_assembly(root->right, f);
 }
-
 
 void gen_expr(node* root, FILE* f) {
     if (root == NULL) return;
@@ -88,11 +97,6 @@ void gen_expr(node* root, FILE* f) {
                     fprintf(stderr, "Operador no soportado en gen_expr\n");
                     break;
             }
-            break;
-        }
-        case NODE_RET: {
-            gen_expr(root->left, f);
-            fprintf(f, "    RET\n");
             break;
         }
         default:
