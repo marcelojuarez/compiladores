@@ -7,7 +7,6 @@
 
 int expr_solver(node* root, symbol_table* table) {
     if (root == NULL) return 0;
-
     switch (root->type) {
         case NODE_NUM:
             return root->info->NUM.value;
@@ -15,13 +14,14 @@ int expr_solver(node* root, symbol_table* table) {
         case NODE_BOOL:
             return root->info->BOOL.value;
 
-        case NODE_ID_USE:
+        case NODE_ID_USE: {
             union type* var = search_symbol(table, root->info->ID.name);
             if (var->ID.type == TYPE_BOOL) {
                 return var->ID.value.boolean;
             } else {
                 return var->ID.value.num;
             }
+        }
         case NODE_OP: {
             int left_value  = expr_solver(root->left,  table);
             int right_value = expr_solver(root->right, table);
@@ -54,11 +54,12 @@ int expr_solver(node* root, symbol_table* table) {
             return expr_solver(root->left, table);
             break;
 
-        case NODE_RET:
-            printf("CASO NODE RETURN\n");
-            int return_value = expr_solver(root->right, table);
-            printf("Funcion retornada con valor %d\n", return_value);
-            exit(EXIT_SUCCESS);
+        case NODE_RET: {
+            int return_value = expr_solver(root->left, table);
+            return return_value;
+            break;
+        }
+            
         default:
             fprintf(stderr, "Error: no es expresión\n");
             exit(1);
@@ -78,6 +79,9 @@ void execute_tree(node* root, symbol_table* table) {
             
             update_symbol_value(table, var_name, value);
         }
+    }else if (root->type == NODE_RET){
+        int return_value = expr_solver(root, table);
+        printf("\nVALOR RETORNO:  %d\n", return_value);
     }
     execute_tree(root->left, table);
     execute_tree(root->right, table);
