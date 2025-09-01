@@ -7,7 +7,7 @@
 
 int expr_solver(node* root, symbol_table* table) {
     if (root == NULL) return 0;
-    printf("%d\n", root->type);
+
     switch (root->type) {
         case NODE_NUM:
             return root->info->NUM.value;

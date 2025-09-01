@@ -5,7 +5,7 @@
 #include "../common.h"
 
 /* Tipos de nodos del ast */
-typedef enum{
+typedef enum {
     NODE_FUNC,
     NODE_NUM,
     NODE_DECL,
@@ -17,7 +17,7 @@ typedef enum{
 }NodeType;
 
 /* Tipos de operaciones */
-typedef enum{
+typedef enum {
     OP_ADD,
     OP_SUB, 
     OP_ASSIGN,
@@ -25,60 +25,60 @@ typedef enum{
     OP_MULT,
     OP_OR,
     OP_AND
-} op;
+} OpType;
 
 union values{
     int num;
     int boolean;
 };
 
-typedef struct infoInt{
+typedef struct IntInfo {
     VariableType type;
     int value;
-} infoInt;  
+} IntInfo;  
 
-typedef struct infoBool{
+typedef struct BoolInfo {
     VariableType type;
     int value;
-} infoBool; 
+} BoolInfo; 
 
-typedef struct infoId{
+typedef struct IdInfo {
     char* name;
     VariableType type;
     union values value;
-} infoId;
+} IdInfo;
 
-typedef struct infoOp{
-    op name;
+typedef struct OpInfo {
+    OpType name;
     VariableType type;
     union values value;
-} infoOp;
+} OpInfo;
 
-typedef struct infoNode{
+typedef struct NodeInfo {
     char* info;
     VariableType type; 
-} infoNode;
+} NodeInfo;
 
-typedef struct infoFun {
+typedef struct FunctionInfo {
     char* name;
     VariableType returnType;
     union values value;
-} infoFun;
+} FunctionInfo;
 
-typedef struct infoRet {
+typedef struct ReturnInfo {
     VariableType returnType;
     union values value;
-} infoRet;
+} ReturnInfo;
 
 /* Info que llevan los nodos */
 union type {
-    infoInt NUM;
-    infoBool BOOL;
-    infoId ID;
-    infoOp OP;
-    infoNode NODE;
-    infoFun FUNC;
-    infoRet RET;
+    IntInfo NUM;
+    BoolInfo BOOL;
+    IdInfo ID;
+    OpInfo OP;
+    NodeInfo NODE;
+    FunctionInfo FUNC;
+    ReturnInfo RET;
 };
 
 /*Estructura de los nodos del ast*/
@@ -91,19 +91,17 @@ typedef struct node {
 
 
 /* Contructores de nodos */
-node* createIntNode(int value);
-node* createBoolNode(int value);
-node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode);
-node *createIdExpr(char *name, NodeType typeNode);
-node* createOpNode(op name, VariableType type);
-node* createNode(char* name, VariableType type);
-node* createFuncNode(char* name, VariableType returnType);
-node* createRetNode(VariableType returnType);
-node* newNode(NodeType type);
-node* createNewTree(node* root, node* left, node* right);
-void printNode(node* root);
-void printInOrder(node *root);
-void printPreOrder(node *root);
-void printTree(node* root, int level); 
+node* create_int_node(int value);
+node* create_bool_node(int value);
+node* create_id_decl_node(char *name, VariableType typeVar, NodeType typeNode);
+node* create_id_expr_node(char *name, NodeType typeNode);
+node* create_operation_node(OpType name, VariableType type);
+node* create_node(char* name, VariableType type);
+node* create_function_node(char* name, VariableType returnType);
+node* create_return_node(VariableType returnType);
+node* new_node(NodeType type);
+node* create_tree(node* root, node* left, node* right);
+void print_node(node* root);
+void print_tree(node* root, int level); 
 
 #endif

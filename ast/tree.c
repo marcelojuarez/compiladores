@@ -2,79 +2,79 @@
 #include <stdlib.h>
 #include "tree.h"
 
-node *createIntNode(int value) {
-    node *root = newNode(NODE_NUM);
+node *create_int_node(int value) {
+    node *root = new_node(NODE_NUM);
     root->info->NUM.type = TYPE_INT;
     root->info->NUM.value = value;
 
     return root;
 }
 
-node *createBoolNode(int value) {
-    node *root = newNode(NODE_BOOL);
+node *create_bool_node(int value) {
+    node *root = new_node(NODE_BOOL);
     root->info->BOOL.type = TYPE_BOOL;
     root->info->BOOL.value = value;
 
     return root;
 }
 
-node *createIdDecl(char *name, VariableType typeVar, NodeType typeNode) {
-    node *root = newNode(typeNode);
+node *create_id_decl_node(char *name, VariableType typeVar, NodeType typeNode) {
+    node *root = new_node(typeNode);
     root->info->ID.name = name;
     root->info->ID.type = typeVar;
 
     return root;
 }
 
-node *createIdExpr(char *name, NodeType typeNode) {
-    node *root = newNode(typeNode);
+node *create_id_expr_node(char *name, NodeType typeNode) {
+    node *root = new_node(typeNode);
     root->info->ID.name = name;
 
     return root;
 }
 
-node *createOpNode(op name, VariableType type) {
-    node *root = newNode(NODE_OP);
+node* create_operation_node(OpType name, VariableType type) {
+    node *root = new_node(NODE_OP);
     root->info->OP.name = name;
     root->info->OP.type = type;
 
     return root;
 }
 
-node *createNode(char *name, VariableType type) {
-    node *root = newNode(NODE);
+node *create_node(char *name, VariableType type) {
+    node *root = new_node(NODE);
     root->info->NODE.info = name;
     root->info->NODE.type = type;
 
     return root;
 }
 
-node* createFuncNode(char* name, VariableType returnType) {
-    node *root = newNode(NODE_FUNC);
+node* create_function_node(char* name, VariableType returnType) {
+    node *root = new_node(NODE_FUNC);
     root->info->FUNC.name = name;
     root->info->FUNC.returnType = returnType;
 
     return root;
 }
 
-node* createRetNode(VariableType returnType) {
-    node *root = newNode(NODE_RET);
+node* create_return_node(VariableType returnType) {
+    node *root = new_node(NODE_RET);
     root->info->RET.returnType = returnType;
 
     return root;
 }
 
-node *newNode(NodeType type) {
+node *new_node(NodeType type) {
     node *root = malloc(sizeof(node));
     root->info = malloc(sizeof(union type));
     root->type = type;
-    root->left = NULL;  // asigno a hi
-    root->right = NULL; // asigno a hd
+    root->left = NULL;
+    root->right = NULL;
 
     return root;
 }
 
-node *createNewTree(node *root, node *left, node *right) {
+node *create_tree(node *root, node *left, node *right) {
     node *newRoot = root;
     newRoot->left = left;
     newRoot->right = right;
@@ -82,7 +82,7 @@ node *createNewTree(node *root, node *left, node *right) {
     return newRoot;
 }
 
-void printNode(node *root) {
+void print_node(node *root) {
     if (!root)
         return;
     switch (root->type) {
@@ -164,27 +164,7 @@ void printNode(node *root) {
         }
 }
 
-void printInOrder(node *root) {
-    if (root == NULL) {
-        return;
-    }
-
-    printInOrder(root->left);
-    printNode(root);
-    printInOrder(root->right);
-}
-
-void printPreOrder(node *root) {
-    if (root == NULL) {
-        return;
-    }
-
-    printNode(root);
-    printPreOrder(root->left);
-    printInOrder(root->right);
-}
-
-void printTree(node *root, int level) {
+void print_tree(node *root, int level) {
     if (root == NULL)
         return;
 
@@ -192,25 +172,7 @@ void printTree(node *root, int level) {
         printf("   ");
     }
 
-    printNode(root);
-    printTree(root->left, level + 1);
-    printTree(root->right, level + 1);
+    print_node(root);
+    print_tree(root->left, level + 1);
+    print_tree(root->right, level + 1);
 }
-
-/**
-int main() {
-
-    node* num = createIntNode(3);
-    node* num1 = createIntNode(5);
-
-    node* op = createOpNode(suma);
-
-    node* tree = createNewTree(op, num, num1);
-
-    printf("Recorrido InOrder:\n");
-    printInOrder(tree);
-
-    return 0;
-
-}
-*/

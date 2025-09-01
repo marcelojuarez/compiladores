@@ -49,8 +49,8 @@ prog:
     }
     TOKEN_LLAVE_L body TOKEN_LLAVE_R 
     {
-        node* rt = createFuncNode($2, $1);
-        root = createNewTree(rt, $7, NULL);
+        node* rt = create_function_node($2, $1);
+        root = create_tree(rt, $7, NULL);
         
         // Se resetea el tipo de retorno después del parsing
         current_return_type = NONE;
@@ -62,16 +62,16 @@ return_type: TOKEN_VOID { $$ = NONE; }
             ; 
 
 body: sentencias { 
-        node* bd = createNode("body", NONE);
-        $$ = createNewTree(bd, $1, NULL);
+        node* bd = create_node("body", NONE);
+        $$ = create_tree(bd, $1, NULL);
     }
     ;
 
 sentencias:
           /*vacio*/ { $$ = NULL; }
           | sentencia sentencias {
-            node* sent = createNode("sentencia", NONE);
-            $$ = createNewTree(sent, $1, $2);
+            node* sent = create_node("sentencia", NONE);
+            $$ = create_tree(sent, $1, $2);
           }
           ;
 
@@ -82,37 +82,37 @@ sentencia: decl {
             $$ = $1;
         }
         | ret {
-            node* retNode = createRetNode(current_return_type);
-            $$ = createNewTree(retNode, $1, NULL);
+            node* retNode = create_return_node(current_return_type);
+            $$ = create_tree(retNode, $1, NULL);
         }
         ;
 
 decl: var{
-        node* varNode = createNode("var", NONE);
-        $$ = createNewTree(varNode, $1, NULL);
+        node* varNode = create_node("var", NONE);
+        $$ = create_tree(varNode, $1, NULL);
     } 
     | cts {
-        node* ctsNode = createNode("cts", NONE);
-        $$ = createNewTree(ctsNode, $1, NULL);
+        node* ctsNode = create_node("cts", NONE);
+        $$ = create_tree(ctsNode, $1, NULL);
     }
     ;
 
 var: type TOKEN_ID TOKEN_PUNTO_Y_COMA {
-        node* idNode = createIdDecl($2, $1, NODE_DECL);
+        node* idNode = create_id_decl_node($2, $1, NODE_DECL);
 
-        $$ = createNewTree(idNode, NULL, NULL);
+        $$ = create_tree(idNode, NULL, NULL);
     }
     | type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
-        node* idNode = createIdDecl($2, $1, NODE_DECL);
-        node* asignNode = createOpNode(OP_ASSIGN, NONE);
+        node* idNode = create_id_decl_node($2, $1, NODE_DECL);
+        node* asignNode = create_operation_node(OP_ASSIGN, NONE);
         
-        $$ = createNewTree(asignNode, idNode, $4);
+        $$ = create_tree(asignNode, idNode, $4);
     }
     ;
 
 cts: TOKEN_CONST type TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
-        node* idNode = createIdDecl($3, $2, NODE_DECL);
-        $$ = createNewTree(idNode, $5, NULL);
+        node* idNode = create_id_decl_node($3, $2, NODE_DECL);
+        $$ = create_tree(idNode, $5, NULL);
    }
    ;
 
@@ -121,9 +121,9 @@ type: TOKEN_INT {$$ = TYPE_INT;}
     ;
 
 asign: TOKEN_ID TOKEN_ASSIGN value TOKEN_PUNTO_Y_COMA {
-        node* asignNode = createOpNode(OP_ASSIGN, NONE);
-        node* idNode = createIdExpr($1, NODE_ID_USE);
-        $$ = createNewTree(asignNode, idNode, $3);
+        node* asignNode = create_operation_node(OP_ASSIGN, NONE);
+        node* idNode = create_id_expr_node($1, NODE_ID_USE);
+        $$ = create_tree(asignNode, idNode, $3);
      }
      ;
 
@@ -151,35 +151,35 @@ value:
     }
     ;
 
-expr: TOKEN_NUM {$$ = createIntNode($1);}
-    | TOKEN_ID {$$ = createIdExpr($1, NODE_ID_USE); }
-    | TOKEN_VAL_BOOL { $$ = createBoolNode($1);}
+expr: TOKEN_NUM {$$ = create_int_node($1);}
+    | TOKEN_ID {$$ = create_id_expr_node($1, NODE_ID_USE); }
+    | TOKEN_VAL_BOOL { $$ = create_bool_node($1);}
     | expr TOKEN_MAS expr {
-        node* op = createOpNode(OP_ADD, TYPE_INT);
-        $$ = createNewTree(op, $1, $3);
+        node* op = create_operation_node(OP_ADD, TYPE_INT);
+        $$ = create_tree(op, $1, $3);
     }
     | expr TOKEN_MENOS expr {
-        node* op = createOpNode(OP_SUB, TYPE_INT);
-        $$ = createNewTree(op, $1, $3); 
+        node* op = create_operation_node(OP_SUB, TYPE_INT);
+        $$ = create_tree(op, $1, $3); 
     }
     | expr TOKEN_DIV expr {
-        node* op = createOpNode(OP_DIV, TYPE_INT);
-        $$ = createNewTree(op, $1, $3);        
+        node* op = create_operation_node(OP_DIV, TYPE_INT);
+        $$ = create_tree(op, $1, $3);        
     }
     | expr TOKEN_MULT expr  {
-        node* op = createOpNode(OP_MULT, TYPE_INT);
-        $$ = createNewTree(op, $1, $3);     
+        node* op = create_operation_node(OP_MULT, TYPE_INT);
+        $$ = create_tree(op, $1, $3);     
     }
     | TOKEN_PAREN_L expr TOKEN_PAREN_R  {
         $$ = $2;        
     }
     | expr TOKEN_AND expr {
-        node* op = createOpNode(OP_AND, TYPE_BOOL);
-        $$ = createNewTree(op, $1, $3);
+        node* op = create_operation_node(OP_AND, TYPE_BOOL);
+        $$ = create_tree(op, $1, $3);
     }
     | expr TOKEN_OR expr {
-        node* op = createOpNode(OP_OR, TYPE_BOOL);
-        $$ = createNewTree(op, $1, $3);
+        node* op = create_operation_node(OP_OR, TYPE_BOOL);
+        $$ = create_tree(op, $1, $3);
     }
     ;
     
@@ -193,19 +193,12 @@ int main(int argc, char *argv[]) {
 
     if (yyparse() == 0) {
         printf("Parseado correctamente, sin errores.\n");
-        printTree(root, 0);
-
+        print_tree(root, 0);
         symbol_table* table = create_symbol_table_of_tree(root);
-
         print_symbol_table(table);
-
         run_type_checker(root);
-
         execute_tree(root, table);
-
         print_symbol_table(table);
-        
-
     }
 
     fclose(input_file);
