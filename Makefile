@@ -6,8 +6,8 @@ CFLAGS = -Wall -g -I. -Iast -Ist -Isintax -Ilexer -Isemantic
 BISON = bison -v -d
 FLEX = flex
 
-SRC_DIRS = sintax lexer ast st semantic
-OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_checker.o semantic/expr_solver.o
+SRC_DIRS = sintax lexer ast st semantic compile
+OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_checker.o semantic/expr_solver.o compile/assembly_generator.o
 
 TARGET = parser
 
@@ -45,6 +45,9 @@ semantic/type_checker.o: semantic/type_checker.c semantic/type_checker.h
 semantic/expr_solver.o: semantic/expr_solver.c semantic/expr_solver.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
+compile/assembly_generator.o: compile/assembly_generator.c compile/assembly_generator.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 # Limpiar archivos generados
 clean:
-	rm -f $(OBJS) $(TARGET) sintax/calc-sintaxis.tab.* lexer/lex.yy.c sintax/calc-sintaxis.output
+	rm -f $(OBJS) $(TARGET) sintax/calc-sintaxis.tab.* lexer/lex.yy.c sintax/calc-sintaxis.output compile/assembly.txt
