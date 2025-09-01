@@ -107,6 +107,10 @@ char* VariableTypeToString(VariableType type){
     }
 }
 
+/**
+ * Realiza el chequeo de tipos entre el retorno y el perfil de la funcion
+ */
+
 void check_return_types(node* root, VariableType f_returnType){
     if (root == NULL ) {
         return ;
@@ -127,7 +131,7 @@ void check_return_types(node* root, VariableType f_returnType){
 }
 
 /**
- * Funcion principal que se encarga de comenzar el cheque de tipos
+ * Funcion principal que se encarga de comenzar el chequeo de tipos
  */
 
 void check_types(node* root) {
