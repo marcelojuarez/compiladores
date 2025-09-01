@@ -7,5 +7,6 @@
 
 void generate_assembly(node* root);
 void write_assembly(node* root, FILE* f);
+void gen_expr(node* root, FILE* f);
 
 #endif
