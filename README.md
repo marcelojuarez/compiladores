@@ -8,7 +8,7 @@ Este proyecto implementa un mini compilador para un lenguaje de programación qu
 * Tipos de datos soportados: int y bool
 * Declaraciones: Variables y constantes
 * Operaciones: Aritméticas (`+`, `-`, `*`, `/`) y lógicas (`&&`, `||`)
-* Una sola funcion main con `return` de tipo `void`, `int` o `bool`.
+* Una sola funcion main con `return` de tipo `void`, `int` o `bool`
 * Análisis semántico: Verificación de tipos y tabla de símbolos
 * Generación de código: Salida en pseudo-assembler.
 
