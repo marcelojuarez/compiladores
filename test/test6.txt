@@ -1,0 +1,9 @@
+int main() {
+    int z = 4;
+    int x = 2;
+    int y = z / x + 3 * 2;
+    bool a = false;
+    bool b = true;
+    bool c = a && b;
+    return 0;
+}

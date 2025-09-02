@@ -1,0 +1,9 @@
+int main() {
+    int z = 8;
+    int x = 1;
+    int y = z + x;
+    bool a = true;
+    bool b = false;
+    bool c = a || b;
+    return 0;
+}
