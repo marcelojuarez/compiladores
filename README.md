@@ -1,13 +1,20 @@
-#  Compiladores
+#  Pre-Proyecto
 
   
-Este proyecto implementa un mini compilador para un lenguaje que puede trabajar con dos tipos de datos; int y bool
+Este proyecto implementa un mini compilador para un lenguaje de programación que soporta dos tipos de datos: `int` y `bool`. El compilador realiza análisis léxico, sintáctico, semántico y genera código en pseudo-ensamblador.
 
+## Características
 
+* Tipos de datos soportados: int y bool
+* Declaraciones: Variables y constantes
+* Operaciones: Aritméticas (`+`, `-`, `*`, `/`) y lógicas (`&&`, `||`)
+* Una sola funcion main con `return` de tipo `void`, `int` o `bool`.
+* Análisis semántico: Verificación de tipos y tabla de símbolos
+* Generación de código: Salida en pseudo-assembler.
 
-#  Estructura del proyecto
+##  Estructura del proyecto
 
-## Directorios principales
+### Directorios principales
 *   `ast/`
     *   Contiene el código fuente del arbol de parsing	   			  
 *   `compile/`
@@ -20,63 +27,30 @@ Este proyecto implementa un mini compilador para un lenguaje que puede trabajar 
 * `semantic/`
 * `st`
     *   Conjuntos de datos utilizados o generados por el proyecto.
-    *   `dataset.csv`: Datos de muestra.
+*   `test`: Arhchivos con código de prueba.
 *   `README.md`: Este archivo.
 
+#### Dependencias
+- **gcc** (GNU Compiler Collection) - versión 4.8 o superior
+- **make** (GNU Make) - versión 3.81 o superior  
+- **flex** (Fast Lexical Analyzer) - versión 2.5 o superior
+- **bison** (GNU Parser Generator) - versión 3.0 o superior
 
-├── ast/  
-│ ├── tree.c  
-│ └── tree.h  
-│  
-├── compile/  
-│ ├── assembly_generator.c  
-│ ├── assembly_generator.h  
-│ └── assembly.txt  
-│  
-├── lexer/  
-│ ├── calc-lexico.l  
-│ ├── lex.yy.c  
-│ └── lex.yy.o  
-│  
-├── semantic/  
-│ ├── expr_solver.c  
-│ ├── expr_solver.h  
-│ ├── type_checker.c  
-│ ├── type_checker.h  
-│ └── type_checker.o  
-│  
-├── sintax/  
-│ ├── calc-sintaxis.y  
-│ ├── calc-sintaxis.output  
-│ ├── calc-sintaxis.tab.c  
-│ ├── calc-sintaxis.tab.h  
-│ └── calc-sintaxis.tab.o  
-│  
-├── st/  
-│ ├── symbol_table.c  
-│ ├── symbol_table.h  
-│ └── symbol_table.o  
-│  
-├── .gitignore  
-├── Makefile  
-├── parser  
-├── preproyecto.pdf  
-├── prueba.txt  
-└── README.md
-
-
-# Compilar el proyecto
+## Compilar el proyecto
 ```
 make 
 ```
 
-# Ejecución de los test
+## Ejecución de tests
+Utilizar archivos del directorio test/ para probar el  funcionamiento mini compilador.
 ```
-./parser test/test.txt
+./parser test/<archivo_fuente>
 ```
-Para poder testear este proyecto se debe ejecutar con alguno de los archivos de prueba que se encuentran en la carpeta /test
 
-#  Limpiar archivos generados
+## Limpiar archivos generados
 ```
 make clean
 ```
+
+## Autor
+Juarez Marcelo - Reynoso Juan Cruz
