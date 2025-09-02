@@ -8,6 +8,7 @@ int yylex(void);
 int yyerror(const char *s);
 node* root;
 VariableType current_return_type = NONE;
+extern int yylineno;
 
 %}
 
@@ -187,6 +188,6 @@ expr: TOKEN_NUM {$$ = create_int_node($1);}
 %%
 
 int yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+    fprintf(stderr, "Error: %s near line %d\n", s, yylineno);
     return 0;
 }

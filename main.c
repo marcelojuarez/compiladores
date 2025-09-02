@@ -9,6 +9,7 @@
 int yyparse(void);
 extern FILE* yyin;
 extern node* root;
+extern int yylineno;
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -23,7 +24,7 @@ int main(int argc, char *argv[]) {
     }
 
     yyin = input_file;
-
+    yylineno = 1;
     if (yyparse() == 0) {
         printf("Parseado correctamente, sin errores.\n");
 
