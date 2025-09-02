@@ -27,6 +27,7 @@ typedef enum {
     OP_AND
 } OpType;
 
+/* Estructuras correspondientes a los distintos tipos de nodo */
 union values{
     int num;
     int boolean;
@@ -101,6 +102,8 @@ node* create_function_node(char* name, VariableType returnType);
 node* create_return_node(VariableType returnType);
 node* new_node(NodeType type);
 node* create_tree(node* root, node* left, node* right);
+
+/* Funciones para imprimir el arbol */
 void print_node(node* root);
 void print_tree(node* root, int level); 
 

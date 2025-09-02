@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include "tree.h"
 
+
+
+/**
+ * Crea un nodo correspondiente a una constante entera
+ */
 node *create_int_node(int value) {
     node *root = new_node(NODE_NUM);
     root->info->NUM.type = TYPE_INT;
@@ -10,6 +15,9 @@ node *create_int_node(int value) {
     return root;
 }
 
+/**
+ * Crea un nodo correspondiente a valor booleano
+ */
 node *create_bool_node(int value) {
     node *root = new_node(NODE_BOOL);
     root->info->BOOL.type = TYPE_BOOL;
@@ -18,6 +26,9 @@ node *create_bool_node(int value) {
     return root;
 }
 
+/**
+ * Crea un nodo correspondiente a una sentencia de declaracion de un ID
+ */
 node *create_id_decl_node(char *name, VariableType typeVar, NodeType typeNode) {
     node *root = new_node(typeNode);
     root->info->ID.name = name;
@@ -26,6 +37,9 @@ node *create_id_decl_node(char *name, VariableType typeVar, NodeType typeNode) {
     return root;
 }
 
+/**
+ * Crea un nodo correspondiente a una sentencia de uso de un ID
+ */
 node *create_id_expr_node(char *name, NodeType typeNode) {
     node *root = new_node(typeNode);
     root->info->ID.name = name;
@@ -33,6 +47,9 @@ node *create_id_expr_node(char *name, NodeType typeNode) {
     return root;
 }
 
+/**
+ * Crea un nodo correspondiente a una sentencia de operacion
+ */
 node* create_operation_node(OpType name, VariableType type) {
     node *root = new_node(NODE_OP);
     root->info->OP.name = name;
@@ -41,6 +58,9 @@ node* create_operation_node(OpType name, VariableType type) {
     return root;
 }
 
+/**
+ * Crea un nodo que  
+ */
 node *create_node(char *name, VariableType type) {
     node *root = new_node(NODE);
     root->info->NODE.info = name;
@@ -49,6 +69,9 @@ node *create_node(char *name, VariableType type) {
     return root;
 }
 
+/**
+ * Crea un nodo correspondiente a una sentencia de funcion
+ */
 node* create_function_node(char* name, VariableType returnType) {
     node *root = new_node(NODE_FUNC);
     root->info->FUNC.name = name;
@@ -57,6 +80,9 @@ node* create_function_node(char* name, VariableType returnType) {
     return root;
 }
 
+/**
+ * Crea un nodo correspondiente a una sentencia return
+ */
 node* create_return_node(VariableType returnType) {
     node *root = new_node(NODE_RET);
     root->info->RET.returnType = returnType;
@@ -64,6 +90,10 @@ node* create_return_node(VariableType returnType) {
     return root;
 }
 
+/**
+ * Recibe un tipo de nodo y lo crea
+ * Esta funcion se utiliza para crear nodos de un tipo en especifico
+ */
 node *new_node(NodeType type) {
     node *root = malloc(sizeof(node));
     root->info = malloc(sizeof(union type));
@@ -73,6 +103,10 @@ node *new_node(NodeType type) {
 
     return root;
 }
+
+/**
+ * Crea un arbol a partir de un nodo raiz y dos sub arboles
+ */
 
 node *create_tree(node *root, node *left, node *right) {
     node *newRoot = root;
@@ -163,6 +197,10 @@ void print_node(node *root) {
             break;
         }
 }
+
+/**
+ * Funcion de entrada que se encarga de imprimir el arbol
+ */
 
 void print_tree(node *root, int level) {
     if (root == NULL)

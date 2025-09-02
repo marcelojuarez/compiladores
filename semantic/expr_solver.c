@@ -5,6 +5,10 @@
 #include "expr_solver.h"
 #include "common.h"
 
+/**
+ * Recorre el arbol interpretando las distintas sentencias del ast
+ */
+
 int expr_solver(node* root, symbol_table* table) {
     if (root == NULL) return 0;
     switch (root->type) {
@@ -66,6 +70,10 @@ int expr_solver(node* root, symbol_table* table) {
     }
 }
 
+/**
+ * Funcion de entrada  que se encarga de interpretar el ast
+ */
+
 void execute_tree(node* root, symbol_table* table) {
     if (root == NULL) {
         return;
@@ -86,6 +94,11 @@ void execute_tree(node* root, symbol_table* table) {
     execute_tree(root->left, table);
     execute_tree(root->right, table);
 }
+
+
+/**
+ * Actualiza un elemento de la tabla de simbolos con un nuevo valor
+ */
 
 void update_symbol_value(symbol_table* table, char* name, int value) {
     union type* v = search_symbol(table, name);

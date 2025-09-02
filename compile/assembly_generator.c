@@ -1,6 +1,10 @@
 #include "assembly_generator.h"
 #include <string.h>
 
+/**
+ * Funcion principal que se encarga de traducir el ast a un pseudo assembler
+ */
+
 void generate_assembly(node* root) {
     FILE* f = fopen("compile/assembly.txt", "w");
     if (f == NULL) {
@@ -19,6 +23,10 @@ void generate_assembly(node* root) {
     write_assembly(root, f);
     fclose(f);
 }
+
+/**
+ * Realiza la traduccion segun el tipo de nodo que esta leyendo
+ */
 
 void write_assembly(node* root, FILE* f) {
     if (root == NULL) return;
@@ -53,6 +61,10 @@ void write_assembly(node* root, FILE* f) {
             break;
     }
 }
+
+/**
+ * Se encarga de traducir al pseudo assembler cada posible expresion del programa
+ */
 
 void gen_expr(node* root, FILE* f) {
     if (root == NULL) return;
