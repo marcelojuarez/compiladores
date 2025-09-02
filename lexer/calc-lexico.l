@@ -86,12 +86,3 @@ valBool true|false
           
 %%
 
-/*User Code section*/
-
-/*
-int main( int argc, char **argv ){
-
-    yylex();
-    return 0;
-}
-*/

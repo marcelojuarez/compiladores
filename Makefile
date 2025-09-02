@@ -7,7 +7,7 @@ BISON = bison -v -d
 FLEX = flex
 
 SRC_DIRS = sintax lexer ast st semantic compile
-OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_checker.o semantic/expr_solver.o compile/assembly_generator.o
+OBJS = sintax/calc-sintaxis.tab.o lexer/lex.yy.o ast/tree.o st/symbol_table.o semantic/type_checker.o semantic/expr_solver.o compile/assembly_generator.o main.o
 
 TARGET = parser
 
@@ -46,6 +46,9 @@ semantic/expr_solver.o: semantic/expr_solver.c semantic/expr_solver.h
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 compile/assembly_generator.o: compile/assembly_generator.c compile/assembly_generator.h
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+main.o: main.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 # Limpiar archivos generados

@@ -186,28 +186,6 @@ expr: TOKEN_NUM {$$ = create_int_node($1);}
     
 %%
 
-int main(int argc, char *argv[]) {
-    
-    FILE *input_file = fopen(argv[1], "r");
-
-    yyin = input_file;
-
-    if (yyparse() == 0) {
-        printf("Parseado correctamente, sin errores.\n");
-        print_tree(root, 0);
-        symbol_table* table = create_symbol_table_of_tree(root);
-        print_symbol_table(table);
-        run_type_checker(root);
-        execute_tree(root, table);
-        print_symbol_table(table);
-        generate_assembly(root); 
-    }
-
-    fclose(input_file);
-    return 0;
-}
-
-
 int yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
     return 0;
