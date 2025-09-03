@@ -83,6 +83,8 @@ valBool true|false
 [ \t\n]+   { /* ignorar espacios, tabs y saltos de línea */ }
 
 ";"         { printf("TOKEN_PUNTO_Y_COMA \n");  return TOKEN_PUNTO_Y_COMA; }
+
+.   { printf("Error léxico: caracter no reconocido '%s'\n", yytext); exit(EXIT_FAILURE);}
           
 %%
 
