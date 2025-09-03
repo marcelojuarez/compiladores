@@ -16,18 +16,19 @@ Este proyecto implementa un mini compilador para un lenguaje de programación qu
 
 ### Directorios principales
 *   `ast/`
-    *   Contiene el código fuente del arbol de parsing	   			  
+    *   Contiene el código fuente que implementa el arbol de parsing	   			  
 *   `compile/`
     *   Contiene el codigo fuente que implementa el traductor a un pseudo assembler
 * `lexer`
     *   Contiene el analizador sintactico generado con `Flex`
-*   `semantic/`
-    *   Documentación adicional del proyecto [6].
-*   `sintax/`
 * `semantic/`
-* `st`
-    *   Conjuntos de datos utilizados o generados por el proyecto.
-*   `test`: Arhchivos con código de prueba.
+    *   Contiene  el codigo que se encarga de hacer el chequeo de tipos 
+    *   Tambien contiene el codigo fuente que implementa el interprete 
+*   `sintax/`
+    *   Contiene el codigo que se encarga de definir la gramatica del lenguaje y generar el parser
+*   `st`
+    *   Contiene el codigo fuente que genera la tabla de simbolos.
+*   `test`: Archivos con código de prueba.
 *   `README.md`: Este archivo.
 
 #### Dependencias
